@@ -8,4 +8,7 @@ public class University
     [Required]
     [StringLength(100)]
     public string UniversityName { get; set; }
+
+    // Navigation property for Faculties
+    public ICollection<Faculty> Faculties { get; set; }
 }
