@@ -5,16 +5,20 @@
       "PackagePath": "staticwebassets\\Code.bundle.scp.css"
     },
     {
+      "Id": "C:\\Users\\Saturday\\Desktop\\Projecty\\Code\\wwwroot\\css\\NavStyles.css",
+      "PackagePath": "staticwebassets\\css\\NavStyles.css"
+    },
+    {
       "Id": "C:\\Users\\Saturday\\Desktop\\Projecty\\Code\\wwwroot\\css\\site.css",
       "PackagePath": "staticwebassets\\css\\site.css"
     },
     {
-      "Id": "C:\\Users\\Saturday\\Desktop\\Projecty\\Code\\wwwroot\\css\\styles.css",
-      "PackagePath": "staticwebassets\\css\\styles.css"
-    },
-    {
       "Id": "C:\\Users\\Saturday\\Desktop\\Projecty\\Code\\wwwroot\\favicon.ico",
       "PackagePath": "staticwebassets\\favicon.ico"
+    },
+    {
+      "Id": "C:\\Users\\Saturday\\Desktop\\Projecty\\Code\\wwwroot\\images\\Untitled design (2)2.png",
+      "PackagePath": "staticwebassets\\images\\Untitled design (2)2.png"
     },
     {
       "Id": "C:\\Users\\Saturday\\Desktop\\Projecty\\Code\\wwwroot\\js\\site.js",

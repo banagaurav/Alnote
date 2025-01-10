@@ -2,21 +2,81 @@
     ViewData["Title"] = "Home Page";
     var username = ViewBag.Username; // Get the username passed from the controller
 }
-
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-
-    @if (!string.IsNullOrEmpty(username) && username != "Guest")
-    {
-        <div class="mt-4">
-            <p>Hello, <strong>@username</strong>! You're logged in.</p>
+@section Styles {
+    <link rel="stylesheet" href="~/css/NavStyles.css" asp-append-version="true" />
+}
+<div class="container">
+    <aside class="sidebar">
+        <div class="logo">
+            <img src="./Photos/Untitled design (2)2.png" alt="Logo" class="logo-img">
         </div>
-    }
-    else
-    {
-        <div class="mt-4">
-            <p>Welcome, Guest! Please <a href="/Startup/SignIn">Sign In</a>.</p>
+        <nav class="nav-menu">
+            <a href="#" class="nav-item active"><span class="icon">🏠</span> Home</a>
+            <a href="#" class="nav-item"><span class="icon">🕒</span> Recent</a>
+            <a href="#" class="nav-item"><span class="icon">⭐</span> Saved</a>
+            <a href="#" class="nav-item"><span class="icon">👥</span> Following</a>
+            <a href="#" class="nav-item"><span class="icon">📚</span> Your Course</a>
+            <a href="#" class="nav-item"><span class="icon">📊</span> Dashboard</a>
+            <a href="#" class="nav-item"><span class="icon">💰</span> Earning</a>
+            <a href="#" class="nav-item"><span class="icon">📝</span> Content</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <header class="header">
+            <div class="header-left">
+                <div class="notification-icon">🔔</div>
+                <button class="upload-btn">📄 Upload</button>
+                <div class="search-bar">
+                    <input type="text" placeholder="Search for Notes or Profile">
+                </div>
+            </div>
+            <div class="header-right">
+                <img src="./Photos/107972717_2660643560930244_4002923522177208544_n.jpg" alt="Profile"
+                    class="profile-img">
+                <span class="settings-icon">⚙️</span>
+            </div>
+        </header>
+
+        <div class="filters">
+            <select class="filter-select">
+                <option>University</option>
+            </select>
+            <select class="filter-select">
+                <option>Faculty</option>
+            </select>
+            <select class="filter-select">
+                <option>Semester</option>
+            </select>
+            <a href="#" class="filter-link">Top Rated</a>
+            <a href="#" class="filter-link">Highest Views</a>
+            <a href="#" class="filter-link">Recently uploaded</a>
         </div>
-    }
+
+        <div class="notes-grid">
+            <!-- Repeat this card structure 12 times -->
+            <div class="note-card">
+                <div class="note-header">
+                    <span>Digital logic</span>
+                    <span>Bsc.CSIT, BCA</span>
+                </div>
+                <div class="note-image">
+                    <img src="./Photos/book.jpeg" alt="Digital Logic Design">
+                </div>
+                <div class="note-footer">
+                    <div class="user-info">
+                        <img src="./Photos/107972717_2660643560930244_4002923522177208544_n.jpg" alt="User"
+                            class="user-avatar">
+                        <span>Manoj basnet</span>
+                    </div>
+                    <div class="note-stats">
+                        <span class="rating">4.0 Rating</span>
+                        <span class="views">200k views</span>
+                        <span class="time">9 hour ago</span>
+                    </div>
+                </div>
+            </div>
+            <!-- Repeat note-card 11 more times -->
+        </div>
+    </main>
 </div>

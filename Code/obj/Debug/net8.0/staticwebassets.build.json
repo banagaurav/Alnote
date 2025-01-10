@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "kKYzVGF5z/txzeoL1T+A4FaVsYEe/TMRrnhG84zF4qQ=",
+  "Hash": "DKc8V83v0ziqNg0G2MttzOpZ+s+zrAVtL6bpq782xqM=",
   "Source": "Code",
   "BasePath": "_content/Code",
   "Mode": "Default",
@@ -55,6 +55,25 @@
       "OriginalItemSpec": "C:\\Users\\Saturday\\Desktop\\Projecty\\Code\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\Code.bundle.scp.css"
     },
     {
+      "Identity": "C:\\Users\\Saturday\\Desktop\\Projecty\\Code\\wwwroot\\css\\NavStyles.css",
+      "SourceId": "Code",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Saturday\\Desktop\\Projecty\\Code\\wwwroot\\",
+      "BasePath": "_content/Code",
+      "RelativePath": "css/NavStyles.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\NavStyles.css"
+    },
+    {
       "Identity": "C:\\Users\\Saturday\\Desktop\\Projecty\\Code\\wwwroot\\css\\site.css",
       "SourceId": "Code",
       "SourceType": "Discovered",
@@ -74,25 +93,6 @@
       "OriginalItemSpec": "wwwroot\\css\\site.css"
     },
     {
-      "Identity": "C:\\Users\\Saturday\\Desktop\\Projecty\\Code\\wwwroot\\css\\styles.css",
-      "SourceId": "Code",
-      "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Saturday\\Desktop\\Projecty\\Code\\wwwroot\\",
-      "BasePath": "_content/Code",
-      "RelativePath": "css/styles.css",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "PreferTarget",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\css\\styles.css"
-    },
-    {
       "Identity": "C:\\Users\\Saturday\\Desktop\\Projecty\\Code\\wwwroot\\favicon.ico",
       "SourceId": "Code",
       "SourceType": "Discovered",
@@ -110,6 +110,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\favicon.ico"
+    },
+    {
+      "Identity": "C:\\Users\\Saturday\\Desktop\\Projecty\\Code\\wwwroot\\images\\Untitled design (2)2.png",
+      "SourceId": "Code",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Saturday\\Desktop\\Projecty\\Code\\wwwroot\\",
+      "BasePath": "_content/Code",
+      "RelativePath": "images/Untitled design (2)2.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\Untitled design (2)2.png"
     },
     {
       "Identity": "C:\\Users\\Saturday\\Desktop\\Projecty\\Code\\wwwroot\\js\\site.js",
