@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore;
 public class AppDbContext : DbContext
 {
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
+
+    public DbSet<User> Users { get; set; }
     public DbSet<Pdf> Pdfs { get; set; }
     public DbSet<University> Universities { get; set; }
     public DbSet<Faculty> Faculties { get; set; }
@@ -13,6 +15,13 @@ public class AppDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+
+        // Configure the one-to-many relationship between User and Pdf
+        modelBuilder.Entity<Pdf>()
+            .HasOne(p => p.User)
+            .WithMany(u => u.UploadedPdfs)
+            .HasForeignKey(p => p.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
 
         // Configure many-to-many relationship between Pdf and AcademicProgram
         modelBuilder.Entity<PdfAcademicProgram>()
