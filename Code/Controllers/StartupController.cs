@@ -55,12 +55,44 @@ namespace Code.Controllers
             return View(model);
         }
 
-        
+
 
         // Register page (still to be implemented)
-        public IActionResult Register()
+        public IActionResult SignUp()
         {
             return View();
+        }
+
+        // POST: SignUp page - Handle registration logic
+        [HttpPost]
+        public async Task<IActionResult> SignUp(SignUpViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var existingUser = await _context.Users
+                    .FirstOrDefaultAsync(u => u.UserName == model.UserName || u.Email == model.Email);
+
+                if (existingUser != null)
+                {
+                    ModelState.AddModelError(string.Empty, "Username or email is already taken.");
+                    return View(model);
+                }
+
+                var newUser = new User
+                {
+                    UserName = model.UserName,
+                    Email = model.Email,
+                    Password = model.Password, // Note: Do not store plain text passwords, you should hash the password
+                    Role = model.Role
+                };
+
+                _context.Users.Add(newUser);
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction("Index", "Home"); // Redirect to a home page after successful registration
+            }
+
+            return View(model); // Return the view with validation errors if the model is invalid
         }
     }
 }
