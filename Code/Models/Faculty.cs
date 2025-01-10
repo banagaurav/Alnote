@@ -15,4 +15,6 @@ public class Faculty
 
     [ForeignKey("UniversityId")]
     public University University { get; set; }
+
+    public ICollection<AcademicProgram> AcademicPrograms { get; set; }
 }
