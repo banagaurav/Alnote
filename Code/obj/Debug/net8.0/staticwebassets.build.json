@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "DKc8V83v0ziqNg0G2MttzOpZ+s+zrAVtL6bpq782xqM=",
+  "Hash": "nG6urZ9eIBPJFQuqMKS4o1HrSJTXoRNPuP8BmfY7FOI=",
   "Source": "Code",
   "BasePath": "_content/Code",
   "Mode": "Default",
@@ -112,12 +112,12 @@
       "OriginalItemSpec": "wwwroot\\favicon.ico"
     },
     {
-      "Identity": "C:\\Users\\Saturday\\Desktop\\Projecty\\Code\\wwwroot\\images\\Untitled design (2)2.png",
+      "Identity": "C:\\Users\\Saturday\\Desktop\\Projecty\\Code\\wwwroot\\images\\Photos\\Untitled design (2)2.png",
       "SourceId": "Code",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\Saturday\\Desktop\\Projecty\\Code\\wwwroot\\",
       "BasePath": "_content/Code",
-      "RelativePath": "images/Untitled design (2)2.png",
+      "RelativePath": "images/Photos/Untitled design (2)2.png",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -128,7 +128,7 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\images\\Untitled design (2)2.png"
+      "OriginalItemSpec": "wwwroot\\images\\Photos\\Untitled design (2)2.png"
     },
     {
       "Identity": "C:\\Users\\Saturday\\Desktop\\Projecty\\Code\\wwwroot\\js\\site.js",
