@@ -15,6 +15,8 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
+        // Retrieve the username from the session (or other authentication mechanism)
+        ViewBag.Username = HttpContext.Session.GetString("Username") ?? "Guest";
         return View();
     }
 

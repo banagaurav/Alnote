@@ -36,6 +36,8 @@ namespace Code.Controllers
                     {
                         // Password matched, user can be logged in
                         // Typically you'd issue a cookie or a JWT here, but for simplicity, we'll just redirect to Home
+                        HttpContext.Session.SetString("Username", user.UserName);
+
                         return RedirectToAction("Index", "Home");
                     }
                     else
@@ -89,7 +91,7 @@ namespace Code.Controllers
                 _context.Users.Add(newUser);
                 await _context.SaveChangesAsync();
 
-                return RedirectToAction("Index", "Home"); // Redirect to a home page after successful registration
+                return RedirectToAction("SignIn", "Startup"); // Redirect to a home page after successful registration
             }
 
             return View(model); // Return the view with validation errors if the model is invalid

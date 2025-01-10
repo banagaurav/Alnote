@@ -1,8 +1,22 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
+    var username = ViewBag.Username; // Get the username passed from the controller
 }
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+
+    @if (!string.IsNullOrEmpty(username) && username != "Guest")
+    {
+        <div class="mt-4">
+            <p>Hello, <strong>@username</strong>! You're logged in.</p>
+        </div>
+    }
+    else
+    {
+        <div class="mt-4">
+            <p>Welcome, Guest! Please <a href="/Startup/SignIn">Sign In</a>.</p>
+        </div>
+    }
 </div>
