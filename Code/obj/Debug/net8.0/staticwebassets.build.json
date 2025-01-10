@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "s3On5ieyXa8n/hFGOcS1igBzgQw8PbJ7EAgo9ptC0n0=",
+  "Hash": "kKYzVGF5z/txzeoL1T+A4FaVsYEe/TMRrnhG84zF4qQ=",
   "Source": "Code",
   "BasePath": "_content/Code",
   "Mode": "Default",
@@ -72,6 +72,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\css\\site.css"
+    },
+    {
+      "Identity": "C:\\Users\\Saturday\\Desktop\\Projecty\\Code\\wwwroot\\css\\styles.css",
+      "SourceId": "Code",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Saturday\\Desktop\\Projecty\\Code\\wwwroot\\",
+      "BasePath": "_content/Code",
+      "RelativePath": "css/styles.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\styles.css"
     },
     {
       "Identity": "C:\\Users\\Saturday\\Desktop\\Projecty\\Code\\wwwroot\\favicon.ico",
