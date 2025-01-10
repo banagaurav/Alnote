@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using Code.Models;
 
 public class University
 {

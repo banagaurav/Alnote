@@ -1,9 +1,10 @@
+using Code.Models;
 using Microsoft.EntityFrameworkCore;
 
 public class AppDbContext : DbContext
 {
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
-
+    public DbSet<Pdf> Pdfs { get; set; }
     public DbSet<University> Universities { get; set; }
     public DbSet<Faculty> Faculties { get; set; }
     public DbSet<AcademicProgram> Academics { get; set; }
