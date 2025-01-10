@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Identity;
 
 namespace Code.Models;
 
@@ -10,7 +11,7 @@ public class User
 
     [Required]
     [StringLength(50, MinimumLength = 3)]
-    public string Username { get; set; } // Username for login
+    public string UserName { get; set; } // Username for login
 
     [Required]
     [StringLength(100)]

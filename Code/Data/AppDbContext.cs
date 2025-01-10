@@ -1,16 +1,28 @@
-using Code.Models;
 using Microsoft.EntityFrameworkCore;
+using Code.Models;
+
+
 
 public class AppDbContext : DbContext
 {
-    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
+    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
+    {
+    }
+
 
     public DbSet<User> Users { get; set; }
+    // Other DbSets (e.g., Pdfs, Faculties)
     public DbSet<Pdf> Pdfs { get; set; }
     public DbSet<University> Universities { get; set; }
     public DbSet<Faculty> Faculties { get; set; }
     public DbSet<AcademicProgram> Academics { get; set; }
     public DbSet<PdfAcademicProgram> PdfAcademicPrograms { get; set; }
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        optionsBuilder.ConfigureWarnings(warnings =>
+            warnings.Ignore(Microsoft.EntityFrameworkCore.Diagnostics.RelationalEventId.PendingModelChangesWarning));
+    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -48,6 +60,46 @@ public class AppDbContext : DbContext
             .HasOne(p => p.Faculty)
             .WithMany(f => f.AcademicPrograms)
             .HasForeignKey(p => p.FacultyId);
+
+        // Seed data for Users
+        modelBuilder.Entity<User>().HasData(
+            new User
+            {
+                UserId = 1,
+                UserName = "admin",
+                Email = "admin@example.com",
+                Password = "Admin@123", // You should hash the password in production
+                Role = "Admin",
+                CreatedAt = DateTime.Now
+            },
+            new User
+            {
+                UserId = 2,
+                UserName = "client1",
+                Email = "client1@example.com",
+                Password = "Client1@123", // You should hash the password in production
+                Role = "Client",
+                CreatedAt = DateTime.Now
+            },
+            new User
+            {
+                UserId = 3,
+                UserName = "client2",
+                Email = "client2@example.com",
+                Password = "Client2@123", // You should hash the password in production
+                Role = "Client",
+                CreatedAt = DateTime.Now
+            },
+            new User
+            {
+                UserId = 4,
+                UserName = "client3",
+                Email = "client3@example.com",
+                Password = "Client3@123", // You should hash the password in production
+                Role = "Client",
+                CreatedAt = DateTime.Now
+            }
+        );
 
         // Seed data for University
         modelBuilder.Entity<University>().HasData(
