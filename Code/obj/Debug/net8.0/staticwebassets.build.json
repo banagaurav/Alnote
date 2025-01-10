@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "nG6urZ9eIBPJFQuqMKS4o1HrSJTXoRNPuP8BmfY7FOI=",
+  "Hash": "TCk2BtdowKHYsbPCnqR11NNYGbVbRobwBuLQBxDmEUQ=",
   "Source": "Code",
   "BasePath": "_content/Code",
   "Mode": "Default",
@@ -55,12 +55,12 @@
       "OriginalItemSpec": "C:\\Users\\Saturday\\Desktop\\Projecty\\Code\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\Code.bundle.scp.css"
     },
     {
-      "Identity": "C:\\Users\\Saturday\\Desktop\\Projecty\\Code\\wwwroot\\css\\NavStyles.css",
+      "Identity": "C:\\Users\\Saturday\\Desktop\\Projecty\\Code\\wwwroot\\css\\NStyles.css",
       "SourceId": "Code",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\Saturday\\Desktop\\Projecty\\Code\\wwwroot\\",
       "BasePath": "_content/Code",
-      "RelativePath": "css/NavStyles.css",
+      "RelativePath": "css/NStyles.css",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -71,7 +71,7 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\css\\NavStyles.css"
+      "OriginalItemSpec": "wwwroot\\css\\NStyles.css"
     },
     {
       "Identity": "C:\\Users\\Saturday\\Desktop\\Projecty\\Code\\wwwroot\\css\\site.css",

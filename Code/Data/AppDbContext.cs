@@ -61,6 +61,29 @@ public class AppDbContext : DbContext
             .WithMany(f => f.AcademicPrograms)
             .HasForeignKey(p => p.FacultyId);
 
+        // Seed data for Pdf
+        modelBuilder.Entity<Pdf>().HasData(
+            new Pdf
+            {
+                Id = 1,  // Manually assigning the Id
+                PdfTitle = "Digital Logic",
+                UserId = 1,  // Assuming a user with ID 1 exists
+                Rating = 4.5f,
+                Views = 1000,
+                UploadedAt = DateTime.Now,
+                ThumbnailPath = "/Images/thumbnail1.jpg" // Add a path for the thumbnail
+            },
+            new Pdf
+            {
+                Id = 2,  // Manually assigning the Id
+                PdfTitle = "Data Structures",
+                UserId = 2,
+                Rating = 4.7f,
+                Views = 500,
+                UploadedAt = DateTime.Now,
+                ThumbnailPath = "/Images/thumbnail2.jpg" // Add a path for the thumbnail
+            }
+        );
         // Seed data for Users
         modelBuilder.Entity<User>().HasData(
             new User

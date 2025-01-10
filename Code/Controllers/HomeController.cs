@@ -1,23 +1,30 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Code.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Code.Controllers;
 
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
+    private readonly AppDbContext _context;
 
-    public HomeController(ILogger<HomeController> logger)
+    public HomeController(AppDbContext context, ILogger<HomeController> logger)
     {
+        _context = context;
         _logger = logger;
     }
-
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
-        // Retrieve the username from the session (or other authentication mechanism)
+        var pdfs = await _context.Pdfs
+        .Include(p => p.User)
+        .Include(p => p.PdfAcademicPrograms)
+            .ThenInclude(pap => pap.AcademicProgram)
+        .ToListAsync(); // Get a list of PDFs
+
         ViewBag.Username = HttpContext.Session.GetString("Username") ?? "Guest";
-        return View();
+        return View(pdfs);
     }
 
 

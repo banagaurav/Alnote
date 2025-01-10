@@ -1,4 +1,5 @@
-﻿@{
+﻿@model IEnumerable<Code.Models.Pdf>
+@{
     ViewData["Title"] = "Home Page";
     var username = ViewBag.Username; // Get the username passed from the controller
 }
@@ -14,9 +15,9 @@
         @Html.Partial("_Filters")
         <div>
             <div class="notes-grid">
-                @for (int i = 0; i < 12; i++) // Render 12 note cards
+                @foreach (var pdf in Model)
                 {
-                    @Html.Partial("_NoteCard")
+                    @Html.Partial("_NoteCard", pdf)
                 }
             </div>
         </div>

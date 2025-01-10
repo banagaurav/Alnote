@@ -1,20 +1,29 @@
+@model Code.Models.Pdf
+
 <div class="note-card">
     <div class="note-header">
-        <span>Digital logic</span>
-        <span>Bsc.CSIT, BCA</span>
+        <span>@Model.PdfTitle</span>
+        @if (Model.PdfAcademicPrograms != null && Model.PdfAcademicPrograms.Any())
+        {
+            <span>@string.Join(", ", Model.PdfAcademicPrograms.Select(ap => ap.AcademicProgram.ProgramName))</span>
+        }
+        else
+        {
+            <span>No academic programs available</span>
+        }
     </div>
     <div class="note-image">
-        <img src="./Photos/book.jpeg" alt="Digital Logic Design">
+        <img src="/Photos/book.jpeg" alt="@Model.PdfTitle">
     </div>
     <div class="note-footer">
         <div class="user-info">
-            <img src="./Photos/107972717_2660643560930244_4002923522177208544_n.jpg" alt="User" class="user-avatar">
-            <span>Manoj Basnet</span>
+            <img src="/Photos/default-user.jpg" alt="User" class="user-avatar">
+            <span>@Model.User.UserName</span>
         </div>
         <div class="note-stats">
-            <span class="rating">4.0 Rating</span>
-            <span class="views">200k views</span>
-            <span class="time">9 hours ago</span>
+            <span class="rating">@Model.Rating.ToString("0.0") Rating</span>
+            <span class="views">@Model.Views.ToString() views</span>
+            <span class="time">@Model.UploadedAt.ToString("MMM dd, yyyy")</span>
         </div>
     </div>
 </div>
