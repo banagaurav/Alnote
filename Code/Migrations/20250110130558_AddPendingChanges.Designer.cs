@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Code.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250110130558_AddPendingChanges")]
+    partial class AddPendingChanges
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -450,7 +453,7 @@ namespace Code.Migrations
                         new
                         {
                             UserId = 1,
-                            CreatedAt = new DateTime(2025, 1, 10, 18, 53, 25, 883, DateTimeKind.Local).AddTicks(830),
+                            CreatedAt = new DateTime(2025, 1, 10, 18, 50, 58, 355, DateTimeKind.Local).AddTicks(1168),
                             Email = "admin@example.com",
                             Password = "Admin@123",
                             Role = "Admin",
@@ -459,7 +462,7 @@ namespace Code.Migrations
                         new
                         {
                             UserId = 2,
-                            CreatedAt = new DateTime(2025, 1, 10, 18, 53, 25, 883, DateTimeKind.Local).AddTicks(1095),
+                            CreatedAt = new DateTime(2025, 1, 10, 18, 50, 58, 355, DateTimeKind.Local).AddTicks(1455),
                             Email = "client1@example.com",
                             Password = "Client1@123",
                             Role = "Client",
@@ -468,7 +471,7 @@ namespace Code.Migrations
                         new
                         {
                             UserId = 3,
-                            CreatedAt = new DateTime(2025, 1, 10, 18, 53, 25, 883, DateTimeKind.Local).AddTicks(1097),
+                            CreatedAt = new DateTime(2025, 1, 10, 18, 50, 58, 355, DateTimeKind.Local).AddTicks(1458),
                             Email = "client2@example.com",
                             Password = "Client2@123",
                             Role = "Client",
@@ -477,7 +480,7 @@ namespace Code.Migrations
                         new
                         {
                             UserId = 4,
-                            CreatedAt = new DateTime(2025, 1, 10, 18, 53, 25, 883, DateTimeKind.Local).AddTicks(1099),
+                            CreatedAt = new DateTime(2025, 1, 10, 18, 50, 58, 355, DateTimeKind.Local).AddTicks(1459),
                             Email = "client3@example.com",
                             Password = "Client3@123",
                             Role = "Client",

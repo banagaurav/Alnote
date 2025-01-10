@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Code.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250110112657_AddUser")]
+    partial class AddUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -437,7 +440,7 @@ namespace Code.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
-                    b.Property<string>("UserName")
+                    b.Property<string>("Username")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
@@ -445,44 +448,6 @@ namespace Code.Migrations
                     b.HasKey("UserId");
 
                     b.ToTable("Users");
-
-                    b.HasData(
-                        new
-                        {
-                            UserId = 1,
-                            CreatedAt = new DateTime(2025, 1, 10, 18, 53, 25, 883, DateTimeKind.Local).AddTicks(830),
-                            Email = "admin@example.com",
-                            Password = "Admin@123",
-                            Role = "Admin",
-                            UserName = "admin"
-                        },
-                        new
-                        {
-                            UserId = 2,
-                            CreatedAt = new DateTime(2025, 1, 10, 18, 53, 25, 883, DateTimeKind.Local).AddTicks(1095),
-                            Email = "client1@example.com",
-                            Password = "Client1@123",
-                            Role = "Client",
-                            UserName = "client1"
-                        },
-                        new
-                        {
-                            UserId = 3,
-                            CreatedAt = new DateTime(2025, 1, 10, 18, 53, 25, 883, DateTimeKind.Local).AddTicks(1097),
-                            Email = "client2@example.com",
-                            Password = "Client2@123",
-                            Role = "Client",
-                            UserName = "client2"
-                        },
-                        new
-                        {
-                            UserId = 4,
-                            CreatedAt = new DateTime(2025, 1, 10, 18, 53, 25, 883, DateTimeKind.Local).AddTicks(1099),
-                            Email = "client3@example.com",
-                            Password = "Client3@123",
-                            Role = "Client",
-                            UserName = "client3"
-                        });
                 });
 
             modelBuilder.Entity("PdfAcademicProgram", b =>
