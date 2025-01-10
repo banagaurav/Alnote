@@ -96,5 +96,10 @@ namespace Code.Controllers
 
             return View(model); // Return the view with validation errors if the model is invalid
         }
+        public IActionResult SignOut()
+        {
+            HttpContext.Session.Clear();
+            return RedirectToAction("SignIn", "Startup");
+        }
     }
 }
