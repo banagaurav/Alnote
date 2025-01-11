@@ -12,13 +12,14 @@ public class MappingService
         {
             Id = faculty.Id,
             FacultyName = faculty.FacultyName,
-            University = new UniversityDto
+            University = faculty.University != null ? new UniversityDto
             {
                 Id = faculty.University.Id,
                 UniversityName = faculty.University.UniversityName
-            }
+            } : null // Make sure university is included
         };
     }
+
 
     public AcademicProgramDto MapToAcademicProgramDto(AcademicProgram academicProgram)
     {
@@ -36,11 +37,6 @@ public class MappingService
                     UniversityName = academicProgram.Faculty.University.UniversityName
                 }
             },
-            PdfAcademicPrograms = academicProgram.PdfAcademicPrograms.Select(pap => new PdfAcademicProgramDto
-            {
-                PdfId = pap.PdfId,
-                AcademicProgramId = pap.AcademicProgramId
-            }).ToList()
         };
     }
 

@@ -16,7 +16,7 @@ public class AppDbContext : DbContext
     public DbSet<University> Universities { get; set; }
     public DbSet<Faculty> Faculties { get; set; }
     public DbSet<AcademicProgram> Academics { get; set; }
-    public DbSet<PdfAcademicProgram> PdfAcademicPrograms { get; set; }
+
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -34,20 +34,6 @@ public class AppDbContext : DbContext
             .WithMany(u => u.UploadedPdfs)
             .HasForeignKey(p => p.UserId)
             .OnDelete(DeleteBehavior.Cascade);
-
-        // Configure many-to-many relationship between Pdf and AcademicProgram
-        modelBuilder.Entity<PdfAcademicProgram>()
-            .HasKey(pap => new { pap.PdfId, pap.AcademicProgramId }); // Composite primary key
-
-        modelBuilder.Entity<PdfAcademicProgram>()
-            .HasOne(pap => pap.Pdf)
-            .WithMany(p => p.PdfAcademicPrograms)
-            .HasForeignKey(pap => pap.PdfId);
-
-        modelBuilder.Entity<PdfAcademicProgram>()
-            .HasOne(pap => pap.AcademicProgram)
-            .WithMany(ap => ap.PdfAcademicPrograms)
-            .HasForeignKey(pap => pap.AcademicProgramId);
 
         // Configure the one-to-many relationship between Faculty and University
         modelBuilder.Entity<Faculty>()

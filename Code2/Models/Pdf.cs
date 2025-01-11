@@ -2,6 +2,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Collections.Generic;
+using Code2.Models;
 
 namespace Code2.Models
 {
@@ -25,8 +26,6 @@ namespace Code2.Models
         public int Views { get; set; } // Number of views
         public DateTime UploadedAt { get; set; } // Upload timestamp
 
-        // Navigation property for the many-to-many relationship
-        public ICollection<PdfAcademicProgram> PdfAcademicPrograms { get; set; }
 
 
     }

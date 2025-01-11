@@ -26,8 +26,6 @@ namespace Code2.Controllers
             var academicPrograms = await _context.Academics
                 .Include(ap => ap.Faculty) // Eager load Faculty
                 .ThenInclude(f => f.University) // Eager load University related to Faculty
-                .Include(ap => ap.PdfAcademicPrograms) // Eager load PdfAcademicPrograms
-                .ThenInclude(pap => pap.Pdf) // Optionally include Pdf details
                 .ToListAsync();
 
             var academicProgramDtos = academicPrograms.Select(ap => _mappingService.MapToAcademicProgramDto(ap)).ToList();

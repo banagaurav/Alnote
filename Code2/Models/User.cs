@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using Code2.Models;
 using Microsoft.AspNetCore.Identity;
 
 namespace Code2.Models;
