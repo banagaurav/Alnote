@@ -1,27 +1,28 @@
+using Code2.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore; // Required for Include
-using Code2.Models;
+using Microsoft.EntityFrameworkCore;
 
-[ApiController]
 [Route("api/[controller]")]
+[ApiController]
 public class FacultyController : ControllerBase
 {
     private readonly AppDbContext _context;
+    private readonly MappingService _mappingService;
 
-    public FacultyController(AppDbContext context)
+    public FacultyController(AppDbContext context, MappingService mappingService)
     {
         _context = context;
+        _mappingService = mappingService;
     }
 
-    // GET: api/Faculty
     [HttpGet]
     public IActionResult GetAllFaculties()
     {
-        // Include University when fetching Faculties
         var faculties = _context.Faculties
-            .Include(f => f.University)  // Eagerly load the associated University
+            .Include(f => f.University)
             .ToList();
 
-        return Ok(faculties);
+        var facultyDtos = faculties.Select(f => _mappingService.MapToFacultyDto(f)).ToList();
+        return Ok(facultyDtos);
     }
 }

@@ -159,6 +159,7 @@ public class AppDbContext : DbContext
 
         modelBuilder.Entity<AcademicProgram>().HasData(
             // Programs for TU - Faculty of Science
+            new AcademicProgram { Id = 1, ProgramName = "BSc allbiology", FacultyId = 1 },
             new AcademicProgram { Id = 2, ProgramName = "BSc Microbiology", FacultyId = 1 },
             new AcademicProgram { Id = 3, ProgramName = "BSc Physics", FacultyId = 1 },
             new AcademicProgram { Id = 4, ProgramName = "BSc Chemistry", FacultyId = 1 },
