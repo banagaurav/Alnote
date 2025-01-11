@@ -1,34 +1,53 @@
 using System;
 using System.ComponentModel.DataAnnotations;
-using Code2.Models;
-using Microsoft.AspNetCore.Identity;
 
-namespace Code2.Models;
-
-public class User
+namespace Code2.Models
 {
-    [Key]
-    public int UserId { get; set; } // Primary Key
+    public class User
+    {
+        [Key]
+        public int UserId { get; set; }
 
-    [Required]
-    [StringLength(50, MinimumLength = 3)]
-    public string UserName { get; set; } // Username for login
+        [Required]
+        [StringLength(50, MinimumLength = 3)]
+        public string FirstName { get; set; }
 
-    [Required]
-    [StringLength(100)]
-    [EmailAddress]
-    public string Email { get; set; } // User's email address
+        [Required]
+        [StringLength(50, MinimumLength = 3)]
+        public string LastName { get; set; }
 
-    [Required]
-    [StringLength(100, MinimumLength = 6)]
-    public string Password { get; set; } // Encrypted password
+        [Required]
+        public DateTime DateOfBirth { get; set; }
 
-    [Required]
-    [StringLength(20)]
-    public string Role { get; set; } // Role of the user, e.g., Admin, Client
+        [Phone]
+        public string PhoneNumber { get; set; }
 
-    public DateTime CreatedAt { get; set; } = DateTime.Now; // Timestamp when the user is created
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; }
 
-    // Navigation property for PDFs uploaded by the user
-    public ICollection<Pdf> UploadedPdfs { get; set; }
+        [Required]
+        [StringLength(100)]
+        public string CurrentSchoolOrCollege { get; set; }
+
+        public int? UniversityId { get; set; }
+        public University University { get; set; }
+
+        [Required]
+        [StringLength(50, MinimumLength = 6)]
+        public string Password { get; set; }
+
+        [Required]
+        [StringLength(50, MinimumLength = 3)]
+        public string Username { get; set; }
+
+        // This is a derived property that combines first and last name
+        public string FullName => $"{FirstName} {LastName}";
+
+        [Required]
+        [StringLength(20)]
+        public string Role { get; set; }
+
+        public DateTime CreatedDate { get; set; } = DateTime.UtcNow; // Automatically set to the current UTC time when the user is created
+    }
 }

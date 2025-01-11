@@ -17,6 +17,19 @@ public class AppDbContext : DbContext
     public DbSet<Faculty> Faculties { get; set; }
     public DbSet<AcademicProgram> Academics { get; set; }
 
+    //for createdDate
+    public override int SaveChanges()
+    {
+        var entries = ChangeTracker.Entries()
+            .Where(e => e.Entity is User && e.State == EntityState.Added);
+
+        foreach (var entry in entries)
+        {
+            ((User)entry.Entity).CreatedDate = DateTime.UtcNow;
+        }
+
+        return base.SaveChanges();
+    }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -27,13 +40,6 @@ public class AppDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-
-        // Configure the one-to-many relationship between User and Pdf
-        modelBuilder.Entity<Pdf>()
-            .HasOne(p => p.User)
-            .WithMany(u => u.UploadedPdfs)
-            .HasForeignKey(p => p.UserId)
-            .OnDelete(DeleteBehavior.Cascade);
 
         // Configure the one-to-many relationship between Faculty and University
         modelBuilder.Entity<Faculty>()
@@ -46,6 +52,16 @@ public class AppDbContext : DbContext
             .HasOne(p => p.Faculty)
             .WithMany(f => f.AcademicPrograms)
             .HasForeignKey(p => p.FacultyId);
+
+        modelBuilder.Entity<User>()
+            .HasOne(u => u.University)
+            .WithMany()
+            .HasForeignKey(u => u.UniversityId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<User>()
+            .Property(u => u.Email)
+            .IsRequired();
 
         // Seed data for Pdf
         modelBuilder.Entity<Pdf>().HasData(
@@ -70,43 +86,67 @@ public class AppDbContext : DbContext
                 ThumbnailPath = "/Images/thumbnail2.jpg" // Add a path for the thumbnail
             }
         );
-        // Seed data for Users
+        // Seed Users data
         modelBuilder.Entity<User>().HasData(
             new User
             {
                 UserId = 1,
-                UserName = "admin",
-                Email = "admin@example.com",
-                Password = "Admin@123", // You should hash the password in production
+                FirstName = "John",
+                LastName = "Doe",
+                DateOfBirth = new DateTime(1990, 5, 12),
+                PhoneNumber = "123-456-7890",
+                Email = "johndoe@example.com",
+                CurrentSchoolOrCollege = "XYZ College",
+                UniversityId = 1, // assuming this university exists
+                Password = "password123",
+                Username = "johndoe",
                 Role = "Admin",
-                CreatedAt = DateTime.Now
+                CreatedDate = DateTime.UtcNow
             },
             new User
             {
                 UserId = 2,
-                UserName = "client1",
-                Email = "client1@example.com",
-                Password = "Client1@123", // You should hash the password in production
+                FirstName = "Jane",
+                LastName = "Smith",
+                DateOfBirth = new DateTime(1992, 7, 24),
+                PhoneNumber = "987-654-3210",
+                Email = "janesmith@example.com",
+                CurrentSchoolOrCollege = "ABC University",
+                UniversityId = 1, // assuming this university exists
+                Password = "password456",
+                Username = "janesmith",
                 Role = "Client",
-                CreatedAt = DateTime.Now
+                CreatedDate = DateTime.UtcNow
             },
             new User
             {
                 UserId = 3,
-                UserName = "client2",
-                Email = "client2@example.com",
-                Password = "Client2@123", // You should hash the password in production
+                FirstName = "Michael",
+                LastName = "Johnson",
+                DateOfBirth = new DateTime(1988, 11, 30),
+                PhoneNumber = "555-123-9876",
+                Email = "michaelj@example.com",
+                CurrentSchoolOrCollege = "PQR Institute",
+                UniversityId = null, // Null means no university associated
+                Password = "password789",
+                Username = "michaeljohnson",
                 Role = "Client",
-                CreatedAt = DateTime.Now
+                CreatedDate = DateTime.UtcNow
             },
             new User
             {
                 UserId = 4,
-                UserName = "client3",
-                Email = "client3@example.com",
-                Password = "Client3@123", // You should hash the password in production
+                FirstName = "Emily",
+                LastName = "Davis",
+                DateOfBirth = new DateTime(1995, 3, 5),
+                PhoneNumber = "123-789-4560",
+                Email = "emilydavis@example.com",
+                CurrentSchoolOrCollege = "LMN College",
+                UniversityId = 2, // assuming this university exists
+                Password = "password101",
+                Username = "emilydavis",
                 Role = "Client",
-                CreatedAt = DateTime.Now
+                CreatedDate = DateTime.UtcNow
             }
         );
 

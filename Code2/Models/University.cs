@@ -12,4 +12,6 @@ public class University
 
     // Navigation property for Faculties
     public ICollection<Faculty> Faculties { get; set; }
+
+    public ICollection<User> Users { get; set; }
 }

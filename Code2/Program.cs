@@ -1,4 +1,7 @@
+using Code2.Models;
+using Code2.Repositories;
 using Code2.Services;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,9 +13,16 @@ builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddScoped<MappingService>();
+
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-builder.Services.AddScoped<MappingService>();
+builder.Services.AddScoped<IUniversityRepository, UniversityRepository>();
+builder.Services.AddScoped<IUniversityService, UniversityService>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 
 var app = builder.Build();
 

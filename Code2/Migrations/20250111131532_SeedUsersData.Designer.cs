@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Code2.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250111131532_SeedUsersData")]
+    partial class SeedUsersData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -436,7 +439,7 @@ namespace Code2.Migrations
                             PdfTitle = "Digital Logic",
                             Rating = 4.5f,
                             ThumbnailPath = "/Images/thumbnail1.jpg",
-                            UploadedAt = new DateTime(2025, 1, 11, 20, 55, 14, 950, DateTimeKind.Local).AddTicks(3558),
+                            UploadedAt = new DateTime(2025, 1, 11, 19, 0, 32, 317, DateTimeKind.Local).AddTicks(1175),
                             UserId = 1,
                             Views = 1000
                         },
@@ -446,7 +449,7 @@ namespace Code2.Migrations
                             PdfTitle = "Data Structures",
                             Rating = 4.7f,
                             ThumbnailPath = "/Images/thumbnail2.jpg",
-                            UploadedAt = new DateTime(2025, 1, 11, 20, 55, 14, 951, DateTimeKind.Local).AddTicks(4867),
+                            UploadedAt = new DateTime(2025, 1, 11, 19, 0, 32, 318, DateTimeKind.Local).AddTicks(1637),
                             UserId = 2,
                             Views = 500
                         });
@@ -502,9 +505,6 @@ namespace Code2.Migrations
                     b.Property<int?>("UniversityId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("UniversityId1")
-                        .HasColumnType("int");
-
                     b.Property<string>("Username")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -514,15 +514,13 @@ namespace Code2.Migrations
 
                     b.HasIndex("UniversityId");
 
-                    b.HasIndex("UniversityId1");
-
                     b.ToTable("Users");
 
                     b.HasData(
                         new
                         {
                             UserId = 1,
-                            CreatedDate = new DateTime(2025, 1, 11, 15, 10, 14, 952, DateTimeKind.Utc).AddTicks(3301),
+                            CreatedDate = new DateTime(2025, 1, 11, 13, 15, 32, 319, DateTimeKind.Utc).AddTicks(115),
                             CurrentSchoolOrCollege = "XYZ College",
                             DateOfBirth = new DateTime(1990, 5, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "johndoe@example.com",
@@ -537,7 +535,7 @@ namespace Code2.Migrations
                         new
                         {
                             UserId = 2,
-                            CreatedDate = new DateTime(2025, 1, 11, 15, 10, 14, 952, DateTimeKind.Utc).AddTicks(3544),
+                            CreatedDate = new DateTime(2025, 1, 11, 13, 15, 32, 319, DateTimeKind.Utc).AddTicks(311),
                             CurrentSchoolOrCollege = "ABC University",
                             DateOfBirth = new DateTime(1992, 7, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "janesmith@example.com",
@@ -552,7 +550,7 @@ namespace Code2.Migrations
                         new
                         {
                             UserId = 3,
-                            CreatedDate = new DateTime(2025, 1, 11, 15, 10, 14, 952, DateTimeKind.Utc).AddTicks(3576),
+                            CreatedDate = new DateTime(2025, 1, 11, 13, 15, 32, 319, DateTimeKind.Utc).AddTicks(314),
                             CurrentSchoolOrCollege = "PQR Institute",
                             DateOfBirth = new DateTime(1988, 11, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "michaelj@example.com",
@@ -566,7 +564,7 @@ namespace Code2.Migrations
                         new
                         {
                             UserId = 4,
-                            CreatedDate = new DateTime(2025, 1, 11, 15, 10, 14, 952, DateTimeKind.Utc).AddTicks(3578),
+                            CreatedDate = new DateTime(2025, 1, 11, 13, 15, 32, 319, DateTimeKind.Utc).AddTicks(316),
                             CurrentSchoolOrCollege = "LMN College",
                             DateOfBirth = new DateTime(1995, 3, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "emilydavis@example.com",
@@ -646,13 +644,8 @@ namespace Code2.Migrations
             modelBuilder.Entity("Code2.Models.User", b =>
                 {
                     b.HasOne("University", "University")
-                        .WithMany()
-                        .HasForeignKey("UniversityId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("University", null)
                         .WithMany("Users")
-                        .HasForeignKey("UniversityId1");
+                        .HasForeignKey("UniversityId");
 
                     b.Navigation("University");
                 });
