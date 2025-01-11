@@ -48,6 +48,20 @@ namespace Code2.Controllers
             }
         }
 
+        // GET api/university/{id}
+        [HttpGet("{id}")]
+        public async Task<ActionResult<University>> GetUniversityById(int id)
+        {
+            var university = await _universityService.GetUniversityByIdAsync(id);
+
+            if (university == null)
+            {
+                return NotFound(); // If no university is found with the given id
+            }
+
+            return Ok(university); // Return the found university
+        }
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUniversity(int id)
         {

@@ -45,7 +45,8 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<Faculty>()
             .HasOne(f => f.University)
             .WithMany(u => u.Faculties)
-            .HasForeignKey(f => f.UniversityId);
+            .HasForeignKey(f => f.UniversityId)
+            .OnDelete(DeleteBehavior.Restrict);
 
         // Define relationships Between AcadamicProgram and Faculty
         modelBuilder.Entity<AcademicProgram>()

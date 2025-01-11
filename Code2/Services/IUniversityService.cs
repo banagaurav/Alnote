@@ -8,4 +8,5 @@ public interface IUniversityService
     Task<UniversityDto> CreateUniversityAsync(UniversityDto universityDto);
     Task<IEnumerable<UniversityDto>> GetAllUniversitiesAsync();
     Task<bool> DeleteUniversityAsync(int universityId);
+    Task<University> GetUniversityByIdAsync(int id);
 }

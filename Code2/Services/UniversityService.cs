@@ -38,6 +38,13 @@ public class UniversityService : IUniversityService
             UniversityName = u.UniversityName,
         });
     }
+
+    // Get a university by Id
+    public async Task<University> GetUniversityByIdAsync(int id)
+    {
+        return await _universityRepository.GetUniversityByIdAsync(id);
+    }
+    
     public async Task<bool> DeleteUniversityAsync(int universityId)
     {
         return await _universityRepository.DeleteUniversityAsync(universityId);
