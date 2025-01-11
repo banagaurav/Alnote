@@ -1,4 +1,4 @@
-namespace Code.Models;
+namespace Code2.Models;
 
 public class AcademicProgram
 {

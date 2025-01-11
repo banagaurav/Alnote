@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Code.Models;
+using Code2.Models;
 
-namespace Code.Models;
+namespace Code2.Models;
 
 public class Faculty
 {
