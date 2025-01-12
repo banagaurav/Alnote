@@ -33,5 +33,11 @@ namespace Code2.Repositories
             await _context.PdfAcademicPrograms.AddAsync(pdfAcademicProgram);
             await _context.SaveChangesAsync();
         }
+
+        public async Task<Pdf> GetPdfByIdAsync(int pdfId)
+        {
+            return await _context.Pdfs
+                .FirstOrDefaultAsync(p => p.Id == pdfId);
+        }
     }
 }

@@ -236,72 +236,92 @@ public class AppDbContext : DbContext
             new AcademicProgram { Id = 33, ProgramName = "BSc Nursing", FacultyId = 12 },
             new AcademicProgram { Id = 34, ProgramName = "BPH", FacultyId = 12 }
         );
-        // Seeding Pdfs
+
         modelBuilder.Entity<Pdf>().HasData(
-            new Pdf
-            {
-                Id = 1,
-                PdfTitle = "Introduction to Biology",
-                UserId = 1,
-                ThumbnailPath = "/thumbnails/biology.png",
-                Rating = 4.5f,
-                Views = 1000,
-                UploadedAt = DateTime.UtcNow,
-                UploadedBy = "John Doe"
-            },
-            new Pdf
-            {
-                Id = 2,
-                PdfTitle = "Advanced Chemistry",
-                UserId = 1,
-                ThumbnailPath = "/thumbnails/chemistry.png",
-                Rating = 4.0f,
-                Views = 800,
-                UploadedAt = DateTime.UtcNow,
-                UploadedBy = "John Doe"
-            },
-            new Pdf
-            {
-                Id = 3,
-                PdfTitle = "Engineering Physics",
-                UserId = 1,
-                ThumbnailPath = "/thumbnails/physics.png",
-                Rating = 4.3f,
-                Views = 1200,
-                UploadedAt = DateTime.UtcNow,
-                UploadedBy = "John Doe"
-            },
-            new Pdf
-            {
-                Id = 4,
-                PdfTitle = "Computer Science Fundamentals",
-                UserId = 1,
-                ThumbnailPath = "/thumbnails/computerscience.png",
-                Rating = 4.6f,
-                Views = 1500,
-                UploadedAt = DateTime.UtcNow,
-                UploadedBy = "John Doe"
-            },
-            new Pdf
-            {
-                Id = 5,
-                PdfTitle = "Business Administration Concepts",
-                UserId = 1,
-                ThumbnailPath = "/thumbnails/business.png",
-                Rating = 4.2f,
-                Views = 950,
-                UploadedAt = DateTime.UtcNow,
-                UploadedBy = "John Doe"
-            }
-        );
-        // Seeding PdfAcademicPrograms (many-to-many relationships)
+     // PDF 1 for BSc CSIT and BSc Microbiology
+     new Pdf
+     {
+         Id = 1,
+         PdfTitle = "BSc CSIT Course Material 1",
+         UserId = 1,
+         ThumbnailPath = "path/to/thumbnail1.jpg",
+         Rating = 4.5f,
+         Views = 100,
+         UploadedAt = DateTime.UtcNow,
+         UploadedBy = "John Doe"
+     },
+     // PDF 2 for BSc Microbiology and BSc Environmental Science
+     new Pdf
+     {
+         Id = 2,
+         PdfTitle = "BSc Microbiology Course Material 1",
+         UserId = 2,
+         ThumbnailPath = "path/to/thumbnail2.jpg",
+         Rating = 4.0f,
+         Views = 200,
+         UploadedAt = DateTime.UtcNow,
+         UploadedBy = "Jane Doe"
+     },
+     // PDF 3 for BBA and MBA
+     new Pdf
+     {
+         Id = 3,
+         PdfTitle = "BBA and MBA Case Studies",
+         UserId = 3,
+         ThumbnailPath = "path/to/thumbnail3.jpg",
+         Rating = 4.8f,
+         Views = 150,
+         UploadedAt = DateTime.UtcNow,
+         UploadedBy = "Emily Smith"
+     },
+     // PDF 4 for BBA and BIM
+     new Pdf
+     {
+         Id = 4,
+         PdfTitle = "BBA and BIM Overview",
+         UserId = 4,
+         ThumbnailPath = "path/to/thumbnail4.jpg",
+         Rating = 4.2f,
+         Views = 50,
+         UploadedAt = DateTime.UtcNow,
+         UploadedBy = "David Johnson"
+     },
+     // PDF 5 for BSc Agriculture and BSc Nursing
+     new Pdf
+     {
+         Id = 5,
+         PdfTitle = "BSc Agriculture and BSc Nursing Guide",
+         UserId = 3,
+         ThumbnailPath = "path/to/thumbnail5.jpg",
+         Rating = 4.1f,
+         Views = 250,
+         UploadedAt = DateTime.UtcNow,
+         UploadedBy = "Sarah Lee"
+     }
+ );
+
+
         modelBuilder.Entity<PdfAcademicProgram>().HasData(
-            new PdfAcademicProgram { PdfId = 1, AcademicProgramId = 1 }, // Computer Science PDF linked to Computer Science Program
-            new PdfAcademicProgram { PdfId = 2, AcademicProgramId = 2 }, // Business PDF linked to Business Program
-            new PdfAcademicProgram { PdfId = 3, AcademicProgramId = 3 }, // Engineering PDF linked to Mechanical Engineering Program
-            new PdfAcademicProgram { PdfId = 4, AcademicProgramId = 4 }, // Engineering PDF linked to Electrical Engineering Program
-            new PdfAcademicProgram { PdfId = 5, AcademicProgramId = 5 }  // Engineering PDF linked to Civil Engineering Program
-        );
+            // PDF 1 associated with BSc CSIT and BSc Microbiology
+            new PdfAcademicProgram { PdfId = 1, AcademicProgramId = 17 },  // BSc CSIT for TU Faculty of Science
+            new PdfAcademicProgram { PdfId = 1, AcademicProgramId = 18 },  // BSc Microbiology for TU Faculty of Science
+
+            // PDF 2 associated with BSc Microbiology and BSc Environmental Science
+            new PdfAcademicProgram { PdfId = 2, AcademicProgramId = 18 },  // BSc Microbiology for TU Faculty of Science
+            new PdfAcademicProgram { PdfId = 2, AcademicProgramId = 6 },   // BSc Environmental Science for TU Faculty of Science
+
+            // PDF 3 associated with BBA and MBA
+            new PdfAcademicProgram { PdfId = 3, AcademicProgramId = 7 },   // BBA for TU Faculty of Management
+            new PdfAcademicProgram { PdfId = 3, AcademicProgramId = 8 },   // MBA for TU Faculty of Management
+
+            // PDF 4 associated with BBA and BIM
+            new PdfAcademicProgram { PdfId = 4, AcademicProgramId = 7 },   // BBA for TU Faculty of Management
+            new PdfAcademicProgram { PdfId = 4, AcademicProgramId = 11 },  // BIM for TU Faculty of Management
+
+            // PDF 5 associated with BSc Agriculture and BSc Nursing
+            new PdfAcademicProgram { PdfId = 5, AcademicProgramId = 32 },  // BSc Agriculture for PU Faculty of Agriculture
+            new PdfAcademicProgram { PdfId = 5, AcademicProgramId = 33 }   // BSc Nursing for PU Faculty of Health Sciences
+);
     }
 
 

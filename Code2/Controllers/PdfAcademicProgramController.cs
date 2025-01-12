@@ -1,5 +1,5 @@
-using Code2.DTOs;
-using Code2.Repositories;
+using Code2.Models;
+using Code2.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Code2.Controllers
@@ -8,31 +8,24 @@ namespace Code2.Controllers
     [ApiController]
     public class PdfAcademicProgramController : ControllerBase
     {
-        private readonly IPdfAcademicProgramRepository _repository;
+        private readonly IPdfAcademicProgramService _service;
 
-        public PdfAcademicProgramController(IPdfAcademicProgramRepository repository)
+        public PdfAcademicProgramController(IPdfAcademicProgramService service)
         {
-            _repository = repository;
+            _service = service;
         }
 
-        // GET api/pdfacademicprogram/academicProgram/{academicProgramId}
-        [HttpGet("academicProgram/{academicProgramId}")]
-        public async Task<ActionResult<IEnumerable<PdfDto>>> GetPdfsByAcademicProgram(int academicProgramId)
+        // GET: api/PdfAcademicProgram/5
+        [HttpGet("{academicProgramId}")]
+        public async Task<ActionResult<IEnumerable<Pdf>>> GetPdfsByAcademicProgramId(int academicProgramId)
         {
-            var pdfs = await _repository.GetPdfsByAcademicProgramIdAsync(academicProgramId);
-
+            var pdfs = await _service.GetPdfsByAcademicProgramIdAsync(academicProgramId);
             if (pdfs == null || !pdfs.Any())
             {
-                return NotFound();  // No PDFs found for the academic program
+                return NotFound("No PDFs found for the specified Academic Program.");
             }
 
-            var pdfDtos = pdfs.Select(pdf => new PdfDto
-            {
-                Id = pdf.Id,
-                PdfTitle = pdf.PdfTitle,
-            }).ToList();
-
-            return Ok(pdfDtos);  // Return the PDFs as DTOs
+            return Ok(pdfs);
         }
     }
 }
