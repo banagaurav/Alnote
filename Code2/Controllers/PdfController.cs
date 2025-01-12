@@ -55,5 +55,17 @@ namespace Code2.Controllers
             return Ok(pdfs);
         }
 
+        [HttpGet("user/{userId}")]
+        public async Task<IActionResult> GetPdfsByUserId(int userId)
+        {
+            var pdfs = await _pdfService.GetPdfsByUserIdAsync(userId);
+
+            if (pdfs == null || !pdfs.Any())
+            {
+                return NotFound(new { message = "No PDFs found for the specified user." });
+            }
+
+            return Ok(pdfs);
+        }
     }
 }
