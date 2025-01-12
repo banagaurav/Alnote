@@ -7,5 +7,8 @@ namespace Code2.Services.Interfaces
     {
         Task<IEnumerable<PdfDto>> GetAllPdfsAsync();
         Task<PdfDto> GetPdfByIdAsync(int id);
+        Task<List<PdfDto>> GetPdfsSortedByRatingAsync();
+        Task<List<PdfDto>> GetPdfsSortedByViewsAsync();
+        Task<List<PdfDto>> GetPdfsSortedByRecentUploadAsync();
     }
 }

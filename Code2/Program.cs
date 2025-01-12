@@ -1,6 +1,7 @@
 using Code2.Models;
 using Code2.Repositories;
 using Code2.Services;
+using Code2.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -27,6 +28,8 @@ builder.Services.AddScoped<IUniversityRepository, UniversityRepository>();
 builder.Services.AddScoped<IUniversityService, UniversityService>();
 
 builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
+
+builder.Services.AddScoped<IPdfService, PdfService>();
 
 // Add CORS services
 builder.Services.AddCors(options =>

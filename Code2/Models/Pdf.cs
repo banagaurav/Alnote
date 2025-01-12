@@ -25,8 +25,5 @@ namespace Code2.Models
         public float Rating { get; set; } // Rating of the PDF
         public int Views { get; set; } // Number of views
         public DateTime UploadedAt { get; set; } // Upload timestamp
-
-
-
     }
 }

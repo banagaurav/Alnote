@@ -1,47 +1,59 @@
+// Controllers/PdfController.cs
+using Code2.DTOs;
+using Code2.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Code2.Models; // Namespace for your models
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Code2.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
     public class PdfController : ControllerBase
     {
-        private readonly AppDbContext _context;
+        private readonly IPdfService _pdfService;
 
-        public PdfController(AppDbContext context)
+        public PdfController(IPdfService pdfService)
         {
-            _context = context;
+            _pdfService = pdfService;
         }
 
-        // GET: api/Pdf
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Pdf>>> GetAllPdfs()
+        public async Task<IActionResult> GetAllPdfs()
         {
-            var pdfs = await _context.Pdfs
-                .Include(p => p.User) // Include related User data
-                .ToListAsync();
-
+            var pdfs = await _pdfService.GetAllPdfsAsync();
             return Ok(pdfs);
         }
 
-        // GET: api/Pdf/{id}
         [HttpGet("{id}")]
-        public async Task<ActionResult<Pdf>> GetPdfById(int id)
+        public async Task<IActionResult> GetPdfById(int id)
         {
-            var pdf = await _context.Pdfs
-                .Include(p => p.User) // Include related User data
-                .FirstOrDefaultAsync(p => p.Id == id);
-
+            var pdf = await _pdfService.GetPdfByIdAsync(id);
             if (pdf == null)
             {
-                return NotFound(new { message = "PDF not found." });
+                return NotFound();
             }
-
             return Ok(pdf);
         }
+
+        [HttpGet("TopRated")]
+        public async Task<IActionResult> GetTopRatedPdfs()
+        {
+            var pdfs = await _pdfService.GetPdfsSortedByRatingAsync();
+            return Ok(pdfs);
+        }
+
+        [HttpGet("MostViewed")]
+        public async Task<IActionResult> GetMostViewedPdfs()
+        {
+            var pdfs = await _pdfService.GetPdfsSortedByViewsAsync();
+            return Ok(pdfs);
+        }
+
+        [HttpGet("RecentUploads")]
+        public async Task<IActionResult> GetRecentUploads()
+        {
+            var pdfs = await _pdfService.GetPdfsSortedByRecentUploadAsync();
+            return Ok(pdfs);
+        }
+
     }
 }
