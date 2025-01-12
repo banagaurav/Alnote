@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using Code2.Models;
 
 namespace Code2.DTOS
 {
@@ -13,5 +14,7 @@ namespace Code2.DTOS
 
         [Required(ErrorMessage = "Faculty is required.")]
         public FacultyDto Faculty { get; set; }
+
+
     }
 }

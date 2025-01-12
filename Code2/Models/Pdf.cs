@@ -24,6 +24,9 @@ namespace Code2.Models
         public string ThumbnailPath { get; set; } // Path to the PDF's thumbnail image
         public float Rating { get; set; } // Rating of the PDF
         public int Views { get; set; } // Number of views
-        public DateTime UploadedAt { get; set; } // Upload timestamp
+        public DateTime UploadedAt { get; set; } // Upload timestamp 
+        public string UploadedBy { get; set; } // FullName of the uploader 
+
+        public ICollection<PdfAcademicProgram> PdfAcademicPrograms { get; set; }  // Navigation property
     }
 }

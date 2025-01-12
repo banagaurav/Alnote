@@ -1,4 +1,7 @@
 // DTOs/PdfDto.cs
+using Code2.DTOS;
+using Code2.Models;
+
 namespace Code2.DTOs
 {
     public class PdfDto
@@ -10,5 +13,8 @@ namespace Code2.DTOs
         public int Views { get; set; }
         public DateTime UploadedAt { get; set; }
         public string UploadedBy { get; set; } // FullName of the uploader
+
+        // Add this property to hold the associated academic programs
+        public List<AcademicProgramDto> AcademicPrograms { get; set; }
     }
 }

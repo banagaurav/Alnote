@@ -11,4 +11,5 @@ public class AcademicProgram
     // Navigation property to Faculty
     public Faculty Faculty { get; set; }
 
+    public ICollection<PdfAcademicProgram> PdfAcademicPrograms { get; set; }  // Navigation property
 }

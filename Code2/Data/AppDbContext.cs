@@ -12,10 +12,11 @@ public class AppDbContext : DbContext
 
     public DbSet<User> Users { get; set; }
     // Other DbSets (e.g., Pdfs, Faculties)
-    public DbSet<Pdf> Pdfs { get; set; }
     public DbSet<University> Universities { get; set; }
     public DbSet<Faculty> Faculties { get; set; }
     public DbSet<AcademicProgram> Academics { get; set; }
+    public DbSet<Pdf> Pdfs { get; set; }
+    public DbSet<PdfAcademicProgram> PdfAcademicPrograms { get; set; }
 
     //for createdDate
     public override int SaveChanges()
@@ -41,6 +42,20 @@ public class AppDbContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
 
+        // Configure the many-to-many relationship
+        modelBuilder.Entity<PdfAcademicProgram>()
+            .HasKey(pap => new { pap.PdfId, pap.AcademicProgramId });  // Composite primary key
+
+        modelBuilder.Entity<PdfAcademicProgram>()
+            .HasOne(pap => pap.Pdf)
+            .WithMany(p => p.PdfAcademicPrograms)
+            .HasForeignKey(pap => pap.PdfId);
+
+        modelBuilder.Entity<PdfAcademicProgram>()
+            .HasOne(pap => pap.AcademicProgram)
+            .WithMany(ap => ap.PdfAcademicPrograms)
+            .HasForeignKey(pap => pap.AcademicProgramId);
+
         // Configure the one-to-many relationship between Faculty and University
         modelBuilder.Entity<Faculty>()
             .HasOne(f => f.University)
@@ -64,29 +79,7 @@ public class AppDbContext : DbContext
             .Property(u => u.Email)
             .IsRequired();
 
-        // Seed data for Pdf
-        modelBuilder.Entity<Pdf>().HasData(
-            new Pdf
-            {
-                Id = 1,
-                PdfTitle = "Introduction to C#",
-                UserId = 1,
-                ThumbnailPath = "/thumbnails/intro-csharp.jpg",
-                Rating = 4.5f,
-                Views = 123,
-                UploadedAt = new DateTime(2025, 1, 10, 12, 0, 0)
-            },
-                new Pdf
-                {
-                    Id = 2,
-                    PdfTitle = "Mastering ASP.NET",
-                    UserId = 2,
-                    ThumbnailPath = "/thumbnails/mastering-aspnet.jpg",
-                    Rating = 4.8f,
-                    Views = 89,
-                    UploadedAt = new DateTime(2025, 1, 11, 8, 30, 0)
-                }
-        );
+
         // Seed Users data
         modelBuilder.Entity<User>().HasData(
             new User
@@ -243,6 +236,73 @@ public class AppDbContext : DbContext
             new AcademicProgram { Id = 33, ProgramName = "BSc Nursing", FacultyId = 12 },
             new AcademicProgram { Id = 34, ProgramName = "BPH", FacultyId = 12 }
         );
-
+        // Seeding Pdfs
+        modelBuilder.Entity<Pdf>().HasData(
+            new Pdf
+            {
+                Id = 1,
+                PdfTitle = "Introduction to Biology",
+                UserId = 1,
+                ThumbnailPath = "/thumbnails/biology.png",
+                Rating = 4.5f,
+                Views = 1000,
+                UploadedAt = DateTime.UtcNow,
+                UploadedBy = "John Doe"
+            },
+            new Pdf
+            {
+                Id = 2,
+                PdfTitle = "Advanced Chemistry",
+                UserId = 1,
+                ThumbnailPath = "/thumbnails/chemistry.png",
+                Rating = 4.0f,
+                Views = 800,
+                UploadedAt = DateTime.UtcNow,
+                UploadedBy = "John Doe"
+            },
+            new Pdf
+            {
+                Id = 3,
+                PdfTitle = "Engineering Physics",
+                UserId = 1,
+                ThumbnailPath = "/thumbnails/physics.png",
+                Rating = 4.3f,
+                Views = 1200,
+                UploadedAt = DateTime.UtcNow,
+                UploadedBy = "John Doe"
+            },
+            new Pdf
+            {
+                Id = 4,
+                PdfTitle = "Computer Science Fundamentals",
+                UserId = 1,
+                ThumbnailPath = "/thumbnails/computerscience.png",
+                Rating = 4.6f,
+                Views = 1500,
+                UploadedAt = DateTime.UtcNow,
+                UploadedBy = "John Doe"
+            },
+            new Pdf
+            {
+                Id = 5,
+                PdfTitle = "Business Administration Concepts",
+                UserId = 1,
+                ThumbnailPath = "/thumbnails/business.png",
+                Rating = 4.2f,
+                Views = 950,
+                UploadedAt = DateTime.UtcNow,
+                UploadedBy = "John Doe"
+            }
+        );
+        // Seeding PdfAcademicPrograms (many-to-many relationships)
+        modelBuilder.Entity<PdfAcademicProgram>().HasData(
+            new PdfAcademicProgram { PdfId = 1, AcademicProgramId = 1 }, // Computer Science PDF linked to Computer Science Program
+            new PdfAcademicProgram { PdfId = 2, AcademicProgramId = 2 }, // Business PDF linked to Business Program
+            new PdfAcademicProgram { PdfId = 3, AcademicProgramId = 3 }, // Engineering PDF linked to Mechanical Engineering Program
+            new PdfAcademicProgram { PdfId = 4, AcademicProgramId = 4 }, // Engineering PDF linked to Electrical Engineering Program
+            new PdfAcademicProgram { PdfId = 5, AcademicProgramId = 5 }  // Engineering PDF linked to Civil Engineering Program
+        );
     }
+
+
 }
