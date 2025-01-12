@@ -31,12 +31,18 @@ builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 
 var app = builder.Build();
 
+// // Serve static files (like React build files) from the wwwroot folder
+// app.UseStaticFiles();
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+// If no API route matches, serve index.html (this is important for React's client-side routing)
+// app.UseRouting();
 
 app.UseHttpsRedirection();
 app.UseAuthorization();

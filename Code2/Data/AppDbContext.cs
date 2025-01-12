@@ -68,24 +68,24 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<Pdf>().HasData(
             new Pdf
             {
-                Id = 1,  // Manually assigning the Id
-                PdfTitle = "Digital Logic",
-                UserId = 1,  // Assuming a user with ID 1 exists
+                Id = 1,
+                PdfTitle = "Introduction to C#",
+                UserId = 1,
+                ThumbnailPath = "/thumbnails/intro-csharp.jpg",
                 Rating = 4.5f,
-                Views = 1000,
-                UploadedAt = DateTime.Now,
-                ThumbnailPath = "/Images/thumbnail1.jpg" // Add a path for the thumbnail
+                Views = 123,
+                UploadedAt = new DateTime(2025, 1, 10, 12, 0, 0)
             },
-            new Pdf
-            {
-                Id = 2,  // Manually assigning the Id
-                PdfTitle = "Data Structures",
-                UserId = 2,
-                Rating = 4.7f,
-                Views = 500,
-                UploadedAt = DateTime.Now,
-                ThumbnailPath = "/Images/thumbnail2.jpg" // Add a path for the thumbnail
-            }
+                new Pdf
+                {
+                    Id = 2,
+                    PdfTitle = "Mastering ASP.NET",
+                    UserId = 2,
+                    ThumbnailPath = "/thumbnails/mastering-aspnet.jpg",
+                    Rating = 4.8f,
+                    Views = 89,
+                    UploadedAt = new DateTime(2025, 1, 11, 8, 30, 0)
+                }
         );
         // Seed Users data
         modelBuilder.Entity<User>().HasData(
