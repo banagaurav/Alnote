@@ -28,6 +28,16 @@ builder.Services.AddScoped<IUniversityService, UniversityService>();
 
 builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 
+// Add CORS services
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAllOrigins", policy =>
+    {
+        policy.AllowAnyOrigin()  // Allow any origin
+              .AllowAnyMethod()  // Allow any HTTP method (GET, POST, PUT, DELETE, etc.)
+              .AllowAnyHeader(); // Allow any headers
+    });
+});
 
 var app = builder.Build();
 
@@ -43,6 +53,8 @@ if (app.Environment.IsDevelopment())
 
 // If no API route matches, serve index.html (this is important for React's client-side routing)
 // app.UseRouting();
+
+app.UseCors("AllowAllOrigins");
 
 app.UseHttpsRedirection();
 app.UseAuthorization();
