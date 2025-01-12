@@ -11,6 +11,5 @@ namespace Code2.Services.Interfaces
         Task<List<PdfDto>> GetPdfsSortedByViewsAsync();
         Task<List<PdfDto>> GetPdfsSortedByRecentUploadAsync();
         Task<List<PdfDto>> GetPdfsByUserIdAsync(int userId);
-
     }
 }
