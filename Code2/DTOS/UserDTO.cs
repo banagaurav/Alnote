@@ -33,10 +33,6 @@ namespace Code2.DTOS
 
         public int? UniversityId { get; set; }  // Nullable for optional university selection
 
-        [Required(ErrorMessage = "Password is required.")]
-        [StringLength(50, MinimumLength = 6, ErrorMessage = "Password must be between 6 and 50 characters.")]
-        public string Password { get; set; }
-
         [Required(ErrorMessage = "Username is required.")]
         [StringLength(50, ErrorMessage = "Username cannot be longer than 50 characters.")]
         public string Username { get; set; }
