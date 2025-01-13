@@ -34,8 +34,8 @@ builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 
 builder.Services.AddScoped<IPdfService, PdfService>();
 
-builder.Services.AddScoped<IPdfAcademicProgramRepository, PdfAcademicProgramRepository>();
-builder.Services.AddScoped<IPdfAcademicProgramService, PdfAcademicProgramService>();
+builder.Services.AddScoped<IPdfSubjectRepository, PdfSubjectRepository>();
+builder.Services.AddScoped<IPdfSubjectService, PdfSubjectService>();
 
 // Add CORS services
 builder.Services.AddCors(options =>

@@ -1,4 +1,3 @@
-// Services/PdfService.cs
 using Code2.DTOs;
 using Code2.DTOS;
 using Code2.Models;
@@ -11,6 +10,7 @@ namespace Code2.Services
     {
         private readonly AppDbContext _context;
         private readonly MappingService _mappingService;
+
         public PdfService(AppDbContext context, MappingService mappingService)
         {
             _context = context;
@@ -20,9 +20,11 @@ namespace Code2.Services
         public async Task<IEnumerable<PdfDto>> GetAllPdfsAsync()
         {
             return await _context.Pdfs
-                .Include(p => p.User) // Include related User data
-                .Include(p => p.PdfAcademicPrograms) // Include join table
-                    .ThenInclude(pap => pap.AcademicProgram) // Include AcademicProgram
+                .Include(p => p.PdfUsers) // Include related User data
+                    .ThenInclude(pu => pu.User) // Include User
+                .Include(p => p.PdfSubjects) // Include relation to subjects
+                    .ThenInclude(ps => ps.Subject) // Include Subject
+                    .ThenInclude(s => s.AcademicProgram) // Include AcademicProgram
                     .ThenInclude(ap => ap.Faculty) // Include Faculty
                     .ThenInclude(f => f.University) // Include University
                 .Select(p => new PdfDto
@@ -33,10 +35,35 @@ namespace Code2.Services
                     Rating = p.Rating,
                     Views = p.Views,
                     UploadedAt = p.UploadedAt,
-                    UploadedBy = $"{p.User.FirstName} {p.User.LastName}", // Combine first and last name
-                    AcademicPrograms = p.PdfAcademicPrograms
-                .Select(pap => _mappingService.MapToAcademicProgramDto(pap.AcademicProgram))
-                .ToList()
+
+                    // Mapping many-to-many relation between Pdf and Subject
+                    Subjects = p.PdfSubjects
+                        .Select(ps => new SubjectDto
+                        {
+                            Id = ps.Subject.Id,
+                            SubjectName = ps.Subject.SubjectName,
+                            SubjectCode = ps.Subject.SubjectCode,
+                            AcademicProgram = new AcademicProgramDto
+                            {
+                                Id = ps.Subject.AcademicProgram.Id,
+                                ProgramName = ps.Subject.AcademicProgram.ProgramName,
+                                Faculty = new FacultyDto
+                                {
+                                    Id = ps.Subject.AcademicProgram.Faculty.Id,
+                                    FacultyName = ps.Subject.AcademicProgram.Faculty.FacultyName,
+                                    University = new UniversityDto
+                                    {
+                                        Id = ps.Subject.AcademicProgram.Faculty.University.Id,
+                                        UniversityName = ps.Subject.AcademicProgram.Faculty.University.UniversityName
+                                    }
+                                }
+                            }
+                        }).ToList(),
+
+                    // Mapping many-to-many relation between Pdf and User
+                    Users = p.PdfUsers
+                        .Select(pu => _mappingService.MapToUserDto(pu.User))
+                        .ToList()
                 })
                 .ToListAsync();
         }
@@ -44,16 +71,18 @@ namespace Code2.Services
         public async Task<PdfDto> GetPdfByIdAsync(int id)
         {
             var pdf = await _context.Pdfs
-                .Include(p => p.User) // Include related User data
-                .Include(p => p.PdfAcademicPrograms) // Include join table
-                    .ThenInclude(pap => pap.AcademicProgram) // Include AcademicProgram
-                    .ThenInclude(ap => ap.Faculty) // Include Faculty
-                    .ThenInclude(f => f.University)// Include University
+                .Include(p => p.PdfUsers)
+                    .ThenInclude(pu => pu.User)
+                .Include(p => p.PdfSubjects)
+                    .ThenInclude(ps => ps.Subject)
+                    .ThenInclude(s => s.AcademicProgram)
+                    .ThenInclude(ap => ap.Faculty)
+                    .ThenInclude(f => f.University)
                 .FirstOrDefaultAsync(p => p.Id == id);
 
             if (pdf == null)
             {
-                return null; // Or throw an exception
+                return null;
             }
 
             return new PdfDto
@@ -64,21 +93,47 @@ namespace Code2.Services
                 Rating = pdf.Rating,
                 Views = pdf.Views,
                 UploadedAt = pdf.UploadedAt,
-                UploadedBy = $"{pdf.User.FirstName} {pdf.User.LastName}", // Combine first and last name
-                AcademicPrograms = pdf.PdfAcademicPrograms
-                .Select(pap => _mappingService.MapToAcademicProgramDto(pap.AcademicProgram))
-                .ToList()
+
+                // Mapping many-to-many relation between Pdf and Subject
+                Subjects = pdf.PdfSubjects
+                    .Select(ps => new SubjectDto
+                    {
+                        Id = ps.Subject.Id,
+                        SubjectName = ps.Subject.SubjectName,
+                        SubjectCode = ps.Subject.SubjectCode,
+                        AcademicProgram = new AcademicProgramDto
+                        {
+                            Id = ps.Subject.AcademicProgram.Id,
+                            ProgramName = ps.Subject.AcademicProgram.ProgramName,
+                            Faculty = new FacultyDto
+                            {
+                                Id = ps.Subject.AcademicProgram.Faculty.Id,
+                                FacultyName = ps.Subject.AcademicProgram.Faculty.FacultyName,
+                                University = new UniversityDto
+                                {
+                                    Id = ps.Subject.AcademicProgram.Faculty.University.Id,
+                                    UniversityName = ps.Subject.AcademicProgram.Faculty.University.UniversityName
+                                }
+                            }
+                        }
+                    }).ToList(),
+
+                // Mapping many-to-many relation between Pdf and User
+                Users = pdf.PdfUsers
+                    .Select(pu => _mappingService.MapToUserDto(pu.User))
+                    .ToList()
             };
         }
 
         public async Task<List<PdfDto>> GetPdfsByUserIdAsync(int userId)
         {
             return await _context.Pdfs
-                .Where(p => p.UserId == userId) // Filter by user ID
-                .Include(p => p.PdfAcademicPrograms) // Include join table
-                    .ThenInclude(pap => pap.AcademicProgram) // Include AcademicProgram
-                    .ThenInclude(ap => ap.Faculty) // Include Faculty
-                    .ThenInclude(f => f.University) // Include University
+                .Where(p => p.PdfUsers.Any(pu => pu.UserId == userId)) // Filter by UserId in PdfUsers
+                .Include(p => p.PdfSubjects)
+                    .ThenInclude(ps => ps.Subject)
+                    .ThenInclude(s => s.AcademicProgram)
+                    .ThenInclude(ap => ap.Faculty)
+                    .ThenInclude(f => f.University)
                 .Select(p => new PdfDto
                 {
                     Id = p.Id,
@@ -87,18 +142,38 @@ namespace Code2.Services
                     Rating = p.Rating,
                     Views = p.Views,
                     UploadedAt = p.UploadedAt,
-                    UploadedBy = $"{p.User.FirstName} {p.User.LastName}",
-                    AcademicPrograms = p.PdfAcademicPrograms
-                .Select(pap => _mappingService.MapToAcademicProgramDto(pap.AcademicProgram))
-                .ToList()
+
+                    // Mapping many-to-many relation between Pdf and Subject
+                    Subjects = p.PdfSubjects
+                        .Select(ps => new SubjectDto
+                        {
+                            Id = ps.Subject.Id,
+                            SubjectName = ps.Subject.SubjectName,
+                            SubjectCode = ps.Subject.SubjectCode,
+                            AcademicProgram = new AcademicProgramDto
+                            {
+                                Id = ps.Subject.AcademicProgram.Id,
+                                ProgramName = ps.Subject.AcademicProgram.ProgramName,
+                                Faculty = new FacultyDto
+                                {
+                                    Id = ps.Subject.AcademicProgram.Faculty.Id,
+                                    FacultyName = ps.Subject.AcademicProgram.Faculty.FacultyName,
+                                    University = new UniversityDto
+                                    {
+                                        Id = ps.Subject.AcademicProgram.Faculty.University.Id,
+                                        UniversityName = ps.Subject.AcademicProgram.Faculty.University.UniversityName
+                                    }
+                                }
+                            }
+                        }).ToList()
                 })
-        .ToListAsync();
+                .ToListAsync();
         }
 
         public async Task<List<PdfDto>> GetPdfsSortedByRatingAsync()
         {
-            var pdfs = await _context.Pdfs
-                .OrderByDescending(p => p.Rating) // Sort by Rating in descending order 
+            return await _context.Pdfs
+                .OrderByDescending(p => p.Rating)
                 .Select(p => new PdfDto
                 {
                     Id = p.Id,
@@ -106,18 +181,15 @@ namespace Code2.Services
                     ThumbnailPath = p.ThumbnailPath,
                     Rating = p.Rating,
                     Views = p.Views,
-                    UploadedAt = p.UploadedAt,
-                    UploadedBy = $"{p.User.FirstName} {p.User.LastName}" // Adjust for your data
+                    UploadedAt = p.UploadedAt
                 })
                 .ToListAsync();
-
-            return pdfs;
         }
 
         public async Task<List<PdfDto>> GetPdfsSortedByViewsAsync()
         {
-            var pdfs = await _context.Pdfs
-                .OrderByDescending(p => p.Views) // Sort by Views in descending order
+            return await _context.Pdfs
+                .OrderByDescending(p => p.Views)
                 .Select(p => new PdfDto
                 {
                     Id = p.Id,
@@ -125,18 +197,15 @@ namespace Code2.Services
                     ThumbnailPath = p.ThumbnailPath,
                     Rating = p.Rating,
                     Views = p.Views,
-                    UploadedAt = p.UploadedAt,
-                    UploadedBy = $"{p.User.FirstName} {p.User.LastName}" // Adjust for your data
+                    UploadedAt = p.UploadedAt
                 })
                 .ToListAsync();
-
-            return pdfs;
         }
 
         public async Task<List<PdfDto>> GetPdfsSortedByRecentUploadAsync()
         {
-            var pdfs = await _context.Pdfs
-                .OrderByDescending(p => p.UploadedAt) // Sort by UploadedAt in descending order
+            return await _context.Pdfs
+                .OrderByDescending(p => p.UploadedAt)
                 .Select(p => new PdfDto
                 {
                     Id = p.Id,
@@ -144,14 +213,9 @@ namespace Code2.Services
                     ThumbnailPath = p.ThumbnailPath,
                     Rating = p.Rating,
                     Views = p.Views,
-                    UploadedAt = p.UploadedAt,
-                    UploadedBy = $"{p.User.FirstName} {p.User.LastName}" // Adjust for your data
+                    UploadedAt = p.UploadedAt
                 })
                 .ToListAsync();
-
-            return pdfs;
         }
-
-
     }
 }

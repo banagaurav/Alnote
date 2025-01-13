@@ -41,7 +41,46 @@ public class MappingService
         };
     }
 
-    // New method for mapping Pdf to PdfDto
+
+    public SubjectDto MapToSubjectDto(Subject subject)
+    {
+        return new SubjectDto
+        {
+            Id = subject.Id,
+            SubjectName = subject.SubjectName,
+            AcademicProgram = new AcademicProgramDto
+            {
+                Id = subject.AcademicProgram.Id,
+                ProgramName = subject.AcademicProgram.ProgramName,
+                Faculty = new FacultyDto
+                {
+                    Id = subject.AcademicProgram.Faculty.Id,
+                    FacultyName = subject.AcademicProgram.Faculty.FacultyName,
+                    University = new UniversityDto
+                    {
+                        Id = subject.AcademicProgram.Faculty.University.Id,
+                        UniversityName = subject.AcademicProgram.Faculty.University.UniversityName
+                    }
+                }
+            }
+        };
+    }
+    public UserDTO MapToUserDto(User user)
+    {
+        if (user == null)
+        {
+            return null;
+        }
+
+        return new UserDTO
+        {
+            UserId = user.UserId,
+            Username = user.Username,
+            Email = user.Email,
+            Role = user.Role
+        };
+    }
+
     public PdfDto MapToPdfDto(Pdf pdf)
     {
         return new PdfDto
@@ -52,26 +91,47 @@ public class MappingService
             Rating = pdf.Rating,
             Views = pdf.Views,
             UploadedAt = pdf.UploadedAt,
-            UploadedBy = pdf.UploadedBy, // Assuming the full name is stored in the UploadedBy field
 
-            // Mapping the many-to-many relation between Pdf and AcademicProgram
-            AcademicPrograms = pdf.PdfAcademicPrograms
-                .Select(pap => new AcademicProgramDto
+            // Mapping the many-to-many relation between Pdf and Subject
+            Subjects = pdf.PdfSubjects
+                .Select(ps => new SubjectDto
                 {
-                    Id = pap.AcademicProgram.Id,
-                    ProgramName = pap.AcademicProgram.ProgramName,
-                    Faculty = new FacultyDto
+                    Id = ps.Subject.Id,
+                    SubjectName = ps.Subject.SubjectName,
+
+                    // Mapping the Subject -> AcademicProgram -> Faculty -> University
+                    AcademicProgram = new AcademicProgramDto
                     {
-                        Id = pap.AcademicProgram.Faculty.Id,
-                        FacultyName = pap.AcademicProgram.Faculty.FacultyName,
-                        University = new UniversityDto
+                        Id = ps.Subject.AcademicProgram.Id,
+                        ProgramName = ps.Subject.AcademicProgram.ProgramName,
+
+                        // Mapping AcademicProgram -> Faculty -> University
+                        Faculty = new FacultyDto
                         {
-                            Id = pap.AcademicProgram.Faculty.University.Id,
-                            UniversityName = pap.AcademicProgram.Faculty.University.UniversityName
+                            Id = ps.Subject.AcademicProgram.Faculty.Id,
+                            FacultyName = ps.Subject.AcademicProgram.Faculty.FacultyName,
+
+                            // Mapping Faculty -> University
+                            University = new UniversityDto
+                            {
+                                Id = ps.Subject.AcademicProgram.Faculty.University.Id,
+                                UniversityName = ps.Subject.AcademicProgram.Faculty.University.UniversityName
+                            }
                         }
                     }
-                }).ToList() // Convert the collection to a list
-        };
+                }).ToList(), // Convert the collection to a list
 
+            // Mapping many-to-many relation between Pdf and User
+            Users = pdf.PdfUsers
+                .Select(pu => new UserDTO
+                {
+                    UserId = pu.User.UserId,
+                    Username = pu.User.Username,
+                    Email = pu.User.Email
+                }).ToList()
+        };
     }
+
+
+
 }

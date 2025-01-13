@@ -49,5 +49,7 @@ namespace Code2.Models
         public string Role { get; set; }
 
         public DateTime CreatedDate { get; set; } = DateTime.UtcNow; // Automatically set to the current UTC time when the user is created
+
+        public ICollection<PdfUser> PdfUsers { get; set; }
     }
 }

@@ -16,7 +16,8 @@ public class AppDbContext : DbContext
     public DbSet<Faculty> Faculties { get; set; }
     public DbSet<AcademicProgram> Academics { get; set; }
     public DbSet<Pdf> Pdfs { get; set; }
-    public DbSet<PdfAcademicProgram> PdfAcademicPrograms { get; set; }
+    public DbSet<PdfSubject> PdfSubjects { get; set; }
+    public DbSet<PdfUser> PdfUsers { get; set; }
 
     //for createdDate
     public override int SaveChanges()
@@ -42,19 +43,33 @@ public class AppDbContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
 
+        // Configuring PdfUser as a many-to-many relationship
+        modelBuilder.Entity<PdfUser>()
+            .HasKey(pu => new { pu.PdfId, pu.UserId }); // Composite primary key
+
+        modelBuilder.Entity<PdfUser>()
+            .HasOne(pu => pu.Pdf)
+            .WithMany(p => p.PdfUsers)
+            .HasForeignKey(pu => pu.PdfId);
+
+        modelBuilder.Entity<PdfUser>()
+            .HasOne(pu => pu.User)
+            .WithMany(u => u.PdfUsers)
+            .HasForeignKey(pu => pu.UserId);
+
         // Configure the many-to-many relationship
-        modelBuilder.Entity<PdfAcademicProgram>()
-            .HasKey(pap => new { pap.PdfId, pap.AcademicProgramId });  // Composite primary key
+        modelBuilder.Entity<PdfSubject>()
+        .HasKey(ps => new { ps.PdfId, ps.SubjectId });  // Composite primary key
 
-        modelBuilder.Entity<PdfAcademicProgram>()
-            .HasOne(pap => pap.Pdf)
-            .WithMany(p => p.PdfAcademicPrograms)
-            .HasForeignKey(pap => pap.PdfId);
+        modelBuilder.Entity<PdfSubject>()
+            .HasOne(ps => ps.Pdf)
+            .WithMany(p => p.PdfSubjects)
+            .HasForeignKey(ps => ps.PdfId);
 
-        modelBuilder.Entity<PdfAcademicProgram>()
-            .HasOne(pap => pap.AcademicProgram)
-            .WithMany(ap => ap.PdfAcademicPrograms)
-            .HasForeignKey(pap => pap.AcademicProgramId);
+        modelBuilder.Entity<PdfSubject>()
+            .HasOne(ps => ps.Subject)
+            .WithMany(s => s.PdfSubjects)
+            .HasForeignKey(ps => ps.SubjectId);
 
         // Configure the one-to-many relationship between Faculty and University
         modelBuilder.Entity<Faculty>()
@@ -78,6 +93,154 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<User>()
             .Property(u => u.Email)
             .IsRequired();
+
+        modelBuilder.Entity<Subject>()
+            .HasOne(s => s.AcademicProgram)        // Subject has one AcademicProgram
+            .WithMany(ap => ap.Subjects)           // AcademicProgram has many Subjects
+            .HasForeignKey(s => s.AcademicProgramId) // Foreign key in Subject
+            .OnDelete(DeleteBehavior.Restrict);    // Restrict delete when AcademicProgram is delete
+
+        // Seed data for University
+        modelBuilder.Entity<University>().HasData(
+            new University { Id = 1, UniversityName = "TU" },
+            new University { Id = 2, UniversityName = "PU" }
+        );
+
+        // Seed data for Faculties of TU
+        modelBuilder.Entity<Faculty>().HasData(
+            // Faculties for TU
+            new Faculty { Id = 1, FacultyName = "Faculty of Humanities", UniversityId = 1 },
+            new Faculty { Id = 2, FacultyName = "Faculty of Science", UniversityId = 1 },
+            new Faculty { Id = 3, FacultyName = "Faculty of Management", UniversityId = 1 },
+            new Faculty { Id = 4, FacultyName = "Faculty of Law", UniversityId = 1 },
+            new Faculty { Id = 5, FacultyName = "Faculty of Education", UniversityId = 1 },
+
+            // Faculties for PU
+            new Faculty { Id = 6, FacultyName = "Faculty of Engineering", UniversityId = 2 },
+            new Faculty { Id = 7, FacultyName = "Faculty of Science", UniversityId = 2 },
+            new Faculty { Id = 8, FacultyName = "Faculty of Management", UniversityId = 2 },
+            new Faculty { Id = 9, FacultyName = "Faculty of Law", UniversityId = 2 },
+            new Faculty { Id = 10, FacultyName = "Faculty of Fine Arts", UniversityId = 2 }
+        );
+
+        modelBuilder.Entity<AcademicProgram>().HasData(
+            // Academic Programs for Faculty of Humanities (TU)
+            new AcademicProgram { Id = 1, ProgramName = "BA English", Type = 0, NoOfYears = 3, FacultyId = 1 },
+            new AcademicProgram { Id = 2, ProgramName = "BA Sociology", Type = 0, NoOfYears = 3, FacultyId = 1 },
+
+            // Academic Programs for Faculty of Science (TU)
+            new AcademicProgram { Id = 3, ProgramName = "BSc Computer Science", Type = 1, NoOfYears = 4, FacultyId = 2 },
+            new AcademicProgram { Id = 4, ProgramName = "BSc Microbiology", Type = 1, NoOfYears = 4, FacultyId = 2 },
+
+            // Academic Programs for Faculty of Management (TU)
+            new AcademicProgram { Id = 5, ProgramName = "BBA", Type = 1, NoOfYears = 4, FacultyId = 3 },
+            new AcademicProgram { Id = 6, ProgramName = "MBA", Type = 1, NoOfYears = 2, FacultyId = 3 },
+
+            // Academic Programs for Faculty of Law (TU)
+            new AcademicProgram { Id = 7, ProgramName = "LLB", Type = 0, NoOfYears = 5, FacultyId = 4 },
+            new AcademicProgram { Id = 8, ProgramName = "LLM", Type = 0, NoOfYears = 2, FacultyId = 4 },
+
+            // Academic Programs for Faculty of Education (TU)
+            new AcademicProgram { Id = 9, ProgramName = "BEd", Type = 0, NoOfYears = 2, FacultyId = 5 },
+            new AcademicProgram { Id = 10, ProgramName = "MEd", Type = 0, NoOfYears = 2, FacultyId = 5 },
+
+            // Academic Programs for Faculty of Engineering (PU)
+            new AcademicProgram { Id = 11, ProgramName = "BEng Civil Engineering", Type = 1, NoOfYears = 4, FacultyId = 6 },
+            new AcademicProgram { Id = 12, ProgramName = "BEng Electrical Engineering", Type = 1, NoOfYears = 4, FacultyId = 6 },
+
+            // Academic Programs for Faculty of Science (PU)
+            new AcademicProgram { Id = 13, ProgramName = "BSc Chemistry", Type = 0, NoOfYears = 3, FacultyId = 7 },
+            new AcademicProgram { Id = 14, ProgramName = "BSc Physics", Type = 0, NoOfYears = 3, FacultyId = 7 },
+
+            // Academic Programs for Faculty of Management (PU)
+            new AcademicProgram { Id = 15, ProgramName = "BBA", Type = 1, NoOfYears = 4, FacultyId = 8 },
+            new AcademicProgram { Id = 16, ProgramName = "MBA", Type = 1, NoOfYears = 2, FacultyId = 8 },
+
+            // Academic Programs for Faculty of Law (PU)
+            new AcademicProgram { Id = 17, ProgramName = "LLB", Type = 0, NoOfYears = 5, FacultyId = 9 },
+            new AcademicProgram { Id = 18, ProgramName = "LLM", Type = 0, NoOfYears = 2, FacultyId = 9 },
+
+            // Academic Programs for Faculty of Fine Arts (PU)
+            new AcademicProgram { Id = 19, ProgramName = "BFA", Type = 0, NoOfYears = 4, FacultyId = 10 }
+        );
+
+
+        modelBuilder.Entity<Subject>().HasData(
+            new Subject { Id = 1, SubjectName = "Mathematics I", SubjectCode = "CSIT101", AcademicProgramId = 3 }, // BSc CSIT
+            new Subject { Id = 2, SubjectName = "Physics I", SubjectCode = "CSIT102", AcademicProgramId = 3 },     // BSc CSIT
+            new Subject { Id = 3, SubjectName = "Computer Science Basics", SubjectCode = "CSIT103", AcademicProgramId = 3 }, // BSc CSIT
+            new Subject { Id = 4, SubjectName = "Microbiology Fundamentals", SubjectCode = "MICRO101", AcademicProgramId = 18 }, // BSc Microbiology
+            new Subject { Id = 5, SubjectName = "Organic Chemistry", SubjectCode = "MICRO102", AcademicProgramId = 18 },        // BSc Microbiology
+            new Subject { Id = 6, SubjectName = "Environmental Science Basics", SubjectCode = "ENV101", AcademicProgramId = 6 }, // BSc Environmental Science
+            new Subject { Id = 7, SubjectName = "Biodiversity", SubjectCode = "ENV102", AcademicProgramId = 6 },                // BSc Environmental Science
+            new Subject { Id = 8, SubjectName = "Principles of Management", SubjectCode = "BBA101", AcademicProgramId = 7 },    // BBA
+            new Subject { Id = 9, SubjectName = "Business Statistics", SubjectCode = "BBA102", AcademicProgramId = 7 },         // BBA
+            new Subject { Id = 10, SubjectName = "Advanced Accounting", SubjectCode = "MBA101", AcademicProgramId = 8 },        // MBA
+            new Subject { Id = 11, SubjectName = "Marketing Management", SubjectCode = "MBA102", AcademicProgramId = 8 },       // MBA
+            new Subject { Id = 12, SubjectName = "Database Management Systems", SubjectCode = "BIM101", AcademicProgramId = 11 }, // BIM
+            new Subject { Id = 13, SubjectName = "Software Engineering", SubjectCode = "BIM102", AcademicProgramId = 11 },       // BIM
+            new Subject { Id = 14, SubjectName = "Agriculture Economics", SubjectCode = "AGRI101", AcademicProgramId = 3 },      // BSc Agriculture
+            new Subject { Id = 15, SubjectName = "Crop Production", SubjectCode = "AGRI102", AcademicProgramId = 3 },            // BSc Agriculture
+            new Subject { Id = 16, SubjectName = "Anatomy and Physiology", SubjectCode = "NUR101", AcademicProgramId = 3 },     // BSc Nursing
+            new Subject { Id = 17, SubjectName = "Community Health Nursing", SubjectCode = "NUR102", AcademicProgramId = 3 },   // BSc Nursing
+            new Subject { Id = 18, SubjectName = "Human Resource Management", SubjectCode = "BBA103", AcademicProgramId = 7 },   // BBA
+            new Subject { Id = 19, SubjectName = "Business Ethics", SubjectCode = "MBA103", AcademicProgramId = 8 },             // MBA
+            new Subject { Id = 20, SubjectName = "Data Structures", SubjectCode = "CSIT104", AcademicProgramId = 17 }            // BSc CSIT
+        );
+
+
+        modelBuilder.Entity<Pdf>().HasData(
+                // PDF 1 for BSc CSIT and BSc Microbiology
+                new Pdf
+                {
+                    Id = 1,
+                    PdfTitle = "BSc CSIT Course Material 1",
+                    ThumbnailPath = "path/to/thumbnail1.jpg",
+                    Rating = 4.5f,
+                    Views = 100,
+                    UploadedAt = DateTime.UtcNow,
+                },
+                // PDF 2 for BSc Microbiology and BSc Environmental Science
+                new Pdf
+                {
+                    Id = 2,
+                    PdfTitle = "BSc Microbiology Course Material 1",
+                    ThumbnailPath = "path/to/thumbnail2.jpg",
+                    Rating = 4.0f,
+                    Views = 200,
+                    UploadedAt = DateTime.UtcNow,
+                },
+                // PDF 3 for BBA and MBA
+                new Pdf
+                {
+                    Id = 3,
+                    PdfTitle = "BBA and MBA Case Studies",
+                    ThumbnailPath = "path/to/thumbnail3.jpg",
+                    Rating = 4.8f,
+                    Views = 150,
+                    UploadedAt = DateTime.UtcNow,
+                },
+                // PDF 4 for BBA and BIM
+                new Pdf
+                {
+                    Id = 4,
+                    PdfTitle = "BBA and BIM Overview",
+                    ThumbnailPath = "path/to/thumbnail4.jpg",
+                    Rating = 4.2f,
+                    Views = 50,
+                    UploadedAt = DateTime.UtcNow,
+                },
+                // PDF 5 for BSc Agriculture and BSc Nursing
+                new Pdf
+                {
+                    Id = 5,
+                    PdfTitle = "BSc Agriculture and BSc Nursing Guide",
+                    ThumbnailPath = "path/to/thumbnail5.jpg",
+                    Rating = 4.1f,
+                    Views = 250,
+                    UploadedAt = DateTime.UtcNow,
+                }
+        );
 
 
         // Seed Users data
@@ -144,185 +307,46 @@ public class AppDbContext : DbContext
             }
         );
 
-        // Seed data for University
-        modelBuilder.Entity<University>().HasData(
-            new University { Id = 1, UniversityName = "TU" },
-            new University { Id = 2, UniversityName = "PU" }
+        modelBuilder.Entity<PdfSubject>().HasData(
+            new PdfSubject { PdfId = 1, SubjectId = 1 },
+            new PdfSubject { PdfId = 2, SubjectId = 2 },
+            new PdfSubject { PdfId = 3, SubjectId = 3 }
         );
 
-        // Seed data for Faculties of TU
-        modelBuilder.Entity<Faculty>().HasData(
-            // Faculties for TU
-            new Faculty { Id = 1, FacultyName = "Faculty of Humanities and Social Sciences", UniversityId = 1 },
-            new Faculty { Id = 2, FacultyName = "Faculty of Science", UniversityId = 1 },
-            new Faculty { Id = 3, FacultyName = "Faculty of Management", UniversityId = 1 },
-            new Faculty { Id = 4, FacultyName = "Faculty of Education", UniversityId = 1 },
-            new Faculty { Id = 5, FacultyName = "Faculty of Law", UniversityId = 1 },
-            new Faculty { Id = 6, FacultyName = "Faculty of Fine Arts", UniversityId = 1 },
-            new Faculty { Id = 7, FacultyName = "Faculty of Engineering", UniversityId = 1 },
-            new Faculty { Id = 8, FacultyName = "Faculty of Ayurveda and Alternative Medicine", UniversityId = 1 },
-            new Faculty { Id = 9, FacultyName = "Faculty of Agriculture", UniversityId = 1 },
-            new Faculty { Id = 10, FacultyName = "Faculty of Health Sciences", UniversityId = 1 },
-
-            // Faculties for PU
-            new Faculty { Id = 11, FacultyName = "Faculty of Humanities and Social Sciences", UniversityId = 2 },
-            new Faculty { Id = 12, FacultyName = "Faculty of Science", UniversityId = 2 },
-            new Faculty { Id = 13, FacultyName = "Faculty of Management", UniversityId = 2 },
-            new Faculty { Id = 14, FacultyName = "Faculty of Education", UniversityId = 2 },
-            new Faculty { Id = 15, FacultyName = "Faculty of Law", UniversityId = 2 },
-            new Faculty { Id = 16, FacultyName = "Faculty of Fine Arts", UniversityId = 2 },
-            new Faculty { Id = 17, FacultyName = "Faculty of Engineering", UniversityId = 2 },
-            new Faculty { Id = 18, FacultyName = "Faculty of Ayurveda and Alternative Medicine", UniversityId = 2 },
-            new Faculty { Id = 19, FacultyName = "Faculty of Agriculture", UniversityId = 2 },
-            new Faculty { Id = 20, FacultyName = "Faculty of Health Sciences", UniversityId = 2 }
+        modelBuilder.Entity<PdfUser>().HasData(
+            // User 1 associated with PDF 1 and PDF 2
+            new PdfUser
+            {
+                PdfId = 1, // PDF 1
+                UserId = 1 // User 1
+            },
+            new PdfUser
+            {
+                PdfId = 2, // PDF 2
+                UserId = 1 // User 1
+            },
+            // User 2 associated with PDF 3
+            new PdfUser
+            {
+                PdfId = 3, // PDF 3
+                UserId = 2 // User 2
+            },
+            // User 3 associated with PDF 4
+            new PdfUser
+            {
+                PdfId = 4, // PDF 4
+                UserId = 3 // User 3
+            },
+            // User 4 associated with PDF 5
+            new PdfUser
+            {
+                PdfId = 5, // PDF 5
+                UserId = 4 // User 4
+            }
         );
 
-        modelBuilder.Entity<AcademicProgram>().HasData(
-            // Programs for TU - Faculty of Science
-            new AcademicProgram { Id = 1, ProgramName = "BSc allbiology", FacultyId = 1 },
-            new AcademicProgram { Id = 2, ProgramName = "BSc Microbiology", FacultyId = 1 },
-            new AcademicProgram { Id = 3, ProgramName = "BSc Physics", FacultyId = 1 },
-            new AcademicProgram { Id = 4, ProgramName = "BSc Chemistry", FacultyId = 1 },
-            new AcademicProgram { Id = 5, ProgramName = "BSc Mathematics", FacultyId = 1 },
-            new AcademicProgram { Id = 6, ProgramName = "BSc Environmental Science", FacultyId = 1 },
-
-            // Programs for TU - Faculty of Management
-            new AcademicProgram { Id = 7, ProgramName = "BBA", FacultyId = 2 },
-            new AcademicProgram { Id = 8, ProgramName = "MBA", FacultyId = 2 },
-            new AcademicProgram { Id = 9, ProgramName = "BBS", FacultyId = 2 },
-            new AcademicProgram { Id = 10, ProgramName = "MBS", FacultyId = 2 },
-            new AcademicProgram { Id = 11, ProgramName = "BIM", FacultyId = 2 },
-
-            // Programs for TU - Faculty of Humanities and Social Sciences
-            new AcademicProgram { Id = 12, ProgramName = "BA Sociology", FacultyId = 3 },
-            new AcademicProgram { Id = 13, ProgramName = "BA English", FacultyId = 3 },
-            new AcademicProgram { Id = 14, ProgramName = "BA Political Science", FacultyId = 3 },
-            new AcademicProgram { Id = 15, ProgramName = "BA Economics", FacultyId = 3 },
-            new AcademicProgram { Id = 16, ProgramName = "MA Sociology", FacultyId = 3 },
-
-            // Programs for PU - Faculty of Science
-            new AcademicProgram { Id = 17, ProgramName = "BSc CSIT", FacultyId = 4 },
-            new AcademicProgram { Id = 18, ProgramName = "BSc Microbiology", FacultyId = 4 },
-            new AcademicProgram { Id = 19, ProgramName = "BSc Environmental Science", FacultyId = 4 },
-
-            // Programs for PU - Faculty of Management
-            new AcademicProgram { Id = 20, ProgramName = "BBA", FacultyId = 5 },
-            new AcademicProgram { Id = 21, ProgramName = "MBA", FacultyId = 5 },
-
-            // Programs for PU - Faculty of Humanities and Social Sciences
-            new AcademicProgram { Id = 22, ProgramName = "BA English", FacultyId = 6 },
-            new AcademicProgram { Id = 23, ProgramName = "BA Sociology", FacultyId = 6 },
-
-            // Programs for PU - Faculty of Engineering
-            new AcademicProgram { Id = 24, ProgramName = "BEng Computer Engineering", FacultyId = 7 },
-            new AcademicProgram { Id = 25, ProgramName = "BEng Civil Engineering", FacultyId = 7 },
-            new AcademicProgram { Id = 26, ProgramName = "BEng Electrical Engineering", FacultyId = 7 },
-            new AcademicProgram { Id = 27, ProgramName = "BEng Electronics and Communication Engineering", FacultyId = 7 },
-
-            // Programs for PU - Faculty of Law
-            new AcademicProgram { Id = 28, ProgramName = "LLB", FacultyId = 8 },
-
-            // Programs for PU - Faculty of Education
-            new AcademicProgram { Id = 29, ProgramName = "BEd", FacultyId = 9 },
-            new AcademicProgram { Id = 30, ProgramName = "MEd", FacultyId = 9 },
-
-            // Programs for PU - Faculty of Fine Arts
-            new AcademicProgram { Id = 31, ProgramName = "BFA", FacultyId = 10 },
-
-            // Programs for PU - Faculty of Agriculture
-            new AcademicProgram { Id = 32, ProgramName = "BSc Agriculture", FacultyId = 11 },
-
-            // Programs for PU - Faculty of Health Sciences
-            new AcademicProgram { Id = 33, ProgramName = "BSc Nursing", FacultyId = 12 },
-            new AcademicProgram { Id = 34, ProgramName = "BPH", FacultyId = 12 }
-        );
-
-        modelBuilder.Entity<Pdf>().HasData(
-     // PDF 1 for BSc CSIT and BSc Microbiology
-     new Pdf
-     {
-         Id = 1,
-         PdfTitle = "BSc CSIT Course Material 1",
-         UserId = 1,
-         ThumbnailPath = "path/to/thumbnail1.jpg",
-         Rating = 4.5f,
-         Views = 100,
-         UploadedAt = DateTime.UtcNow,
-         UploadedBy = "John Doe"
-     },
-     // PDF 2 for BSc Microbiology and BSc Environmental Science
-     new Pdf
-     {
-         Id = 2,
-         PdfTitle = "BSc Microbiology Course Material 1",
-         UserId = 2,
-         ThumbnailPath = "path/to/thumbnail2.jpg",
-         Rating = 4.0f,
-         Views = 200,
-         UploadedAt = DateTime.UtcNow,
-         UploadedBy = "Jane Doe"
-     },
-     // PDF 3 for BBA and MBA
-     new Pdf
-     {
-         Id = 3,
-         PdfTitle = "BBA and MBA Case Studies",
-         UserId = 3,
-         ThumbnailPath = "path/to/thumbnail3.jpg",
-         Rating = 4.8f,
-         Views = 150,
-         UploadedAt = DateTime.UtcNow,
-         UploadedBy = "Emily Smith"
-     },
-     // PDF 4 for BBA and BIM
-     new Pdf
-     {
-         Id = 4,
-         PdfTitle = "BBA and BIM Overview",
-         UserId = 4,
-         ThumbnailPath = "path/to/thumbnail4.jpg",
-         Rating = 4.2f,
-         Views = 50,
-         UploadedAt = DateTime.UtcNow,
-         UploadedBy = "David Johnson"
-     },
-     // PDF 5 for BSc Agriculture and BSc Nursing
-     new Pdf
-     {
-         Id = 5,
-         PdfTitle = "BSc Agriculture and BSc Nursing Guide",
-         UserId = 3,
-         ThumbnailPath = "path/to/thumbnail5.jpg",
-         Rating = 4.1f,
-         Views = 250,
-         UploadedAt = DateTime.UtcNow,
-         UploadedBy = "Sarah Lee"
-     }
- );
-
-
-        modelBuilder.Entity<PdfAcademicProgram>().HasData(
-            // PDF 1 associated with BSc CSIT and BSc Microbiology
-            new PdfAcademicProgram { PdfId = 1, AcademicProgramId = 17 },  // BSc CSIT for TU Faculty of Science
-            new PdfAcademicProgram { PdfId = 1, AcademicProgramId = 18 },  // BSc Microbiology for TU Faculty of Science
-
-            // PDF 2 associated with BSc Microbiology and BSc Environmental Science
-            new PdfAcademicProgram { PdfId = 2, AcademicProgramId = 18 },  // BSc Microbiology for TU Faculty of Science
-            new PdfAcademicProgram { PdfId = 2, AcademicProgramId = 6 },   // BSc Environmental Science for TU Faculty of Science
-
-            // PDF 3 associated with BBA and MBA
-            new PdfAcademicProgram { PdfId = 3, AcademicProgramId = 7 },   // BBA for TU Faculty of Management
-            new PdfAcademicProgram { PdfId = 3, AcademicProgramId = 8 },   // MBA for TU Faculty of Management
-
-            // PDF 4 associated with BBA and BIM
-            new PdfAcademicProgram { PdfId = 4, AcademicProgramId = 7 },   // BBA for TU Faculty of Management
-            new PdfAcademicProgram { PdfId = 4, AcademicProgramId = 11 },  // BIM for TU Faculty of Management
-
-            // PDF 5 associated with BSc Agriculture and BSc Nursing
-            new PdfAcademicProgram { PdfId = 5, AcademicProgramId = 32 },  // BSc Agriculture for PU Faculty of Agriculture
-            new PdfAcademicProgram { PdfId = 5, AcademicProgramId = 33 }   // BSc Nursing for PU Faculty of Health Sciences
-);
     }
+
 
 
 }

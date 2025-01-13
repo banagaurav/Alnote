@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Code2.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250112141406_seedPdfAcademicPrograms")]
-    partial class seedPdfAcademicPrograms
+    [Migration("20250113110701_UpdateDatabase")]
+    partial class UpdateDatabase
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -35,9 +35,15 @@ namespace Code2.Migrations
                     b.Property<int>("FacultyId")
                         .HasColumnType("int");
 
+                    b.Property<int>("NoOfYears")
+                        .HasColumnType("int");
+
                     b.Property<string>("ProgramName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -50,205 +56,153 @@ namespace Code2.Migrations
                         {
                             Id = 1,
                             FacultyId = 1,
-                            ProgramName = "BSc allbiology"
+                            NoOfYears = 3,
+                            ProgramName = "BA English",
+                            Type = 0
                         },
                         new
                         {
                             Id = 2,
                             FacultyId = 1,
-                            ProgramName = "BSc Microbiology"
+                            NoOfYears = 3,
+                            ProgramName = "BA Sociology",
+                            Type = 0
                         },
                         new
                         {
                             Id = 3,
-                            FacultyId = 1,
-                            ProgramName = "BSc Physics"
+                            FacultyId = 2,
+                            NoOfYears = 4,
+                            ProgramName = "BSc Computer Science",
+                            Type = 1
                         },
                         new
                         {
                             Id = 4,
-                            FacultyId = 1,
-                            ProgramName = "BSc Chemistry"
+                            FacultyId = 2,
+                            NoOfYears = 4,
+                            ProgramName = "BSc Microbiology",
+                            Type = 1
                         },
                         new
                         {
                             Id = 5,
-                            FacultyId = 1,
-                            ProgramName = "BSc Mathematics"
+                            FacultyId = 3,
+                            NoOfYears = 4,
+                            ProgramName = "BBA",
+                            Type = 1
                         },
                         new
                         {
                             Id = 6,
-                            FacultyId = 1,
-                            ProgramName = "BSc Environmental Science"
+                            FacultyId = 3,
+                            NoOfYears = 2,
+                            ProgramName = "MBA",
+                            Type = 1
                         },
                         new
                         {
                             Id = 7,
-                            FacultyId = 2,
-                            ProgramName = "BBA"
+                            FacultyId = 4,
+                            NoOfYears = 5,
+                            ProgramName = "LLB",
+                            Type = 0
                         },
                         new
                         {
                             Id = 8,
-                            FacultyId = 2,
-                            ProgramName = "MBA"
+                            FacultyId = 4,
+                            NoOfYears = 2,
+                            ProgramName = "LLM",
+                            Type = 0
                         },
                         new
                         {
                             Id = 9,
-                            FacultyId = 2,
-                            ProgramName = "BBS"
+                            FacultyId = 5,
+                            NoOfYears = 2,
+                            ProgramName = "BEd",
+                            Type = 0
                         },
                         new
                         {
                             Id = 10,
-                            FacultyId = 2,
-                            ProgramName = "MBS"
+                            FacultyId = 5,
+                            NoOfYears = 2,
+                            ProgramName = "MEd",
+                            Type = 0
                         },
                         new
                         {
                             Id = 11,
-                            FacultyId = 2,
-                            ProgramName = "BIM"
+                            FacultyId = 6,
+                            NoOfYears = 4,
+                            ProgramName = "BEng Civil Engineering",
+                            Type = 1
                         },
                         new
                         {
                             Id = 12,
-                            FacultyId = 3,
-                            ProgramName = "BA Sociology"
+                            FacultyId = 6,
+                            NoOfYears = 4,
+                            ProgramName = "BEng Electrical Engineering",
+                            Type = 1
                         },
                         new
                         {
                             Id = 13,
-                            FacultyId = 3,
-                            ProgramName = "BA English"
+                            FacultyId = 7,
+                            NoOfYears = 3,
+                            ProgramName = "BSc Chemistry",
+                            Type = 0
                         },
                         new
                         {
                             Id = 14,
-                            FacultyId = 3,
-                            ProgramName = "BA Political Science"
+                            FacultyId = 7,
+                            NoOfYears = 3,
+                            ProgramName = "BSc Physics",
+                            Type = 0
                         },
                         new
                         {
                             Id = 15,
-                            FacultyId = 3,
-                            ProgramName = "BA Economics"
+                            FacultyId = 8,
+                            NoOfYears = 4,
+                            ProgramName = "BBA",
+                            Type = 1
                         },
                         new
                         {
                             Id = 16,
-                            FacultyId = 3,
-                            ProgramName = "MA Sociology"
+                            FacultyId = 8,
+                            NoOfYears = 2,
+                            ProgramName = "MBA",
+                            Type = 1
                         },
                         new
                         {
                             Id = 17,
-                            FacultyId = 4,
-                            ProgramName = "BSc CSIT"
+                            FacultyId = 9,
+                            NoOfYears = 5,
+                            ProgramName = "LLB",
+                            Type = 0
                         },
                         new
                         {
                             Id = 18,
-                            FacultyId = 4,
-                            ProgramName = "BSc Microbiology"
+                            FacultyId = 9,
+                            NoOfYears = 2,
+                            ProgramName = "LLM",
+                            Type = 0
                         },
                         new
                         {
                             Id = 19,
-                            FacultyId = 4,
-                            ProgramName = "BSc Environmental Science"
-                        },
-                        new
-                        {
-                            Id = 20,
-                            FacultyId = 5,
-                            ProgramName = "BBA"
-                        },
-                        new
-                        {
-                            Id = 21,
-                            FacultyId = 5,
-                            ProgramName = "MBA"
-                        },
-                        new
-                        {
-                            Id = 22,
-                            FacultyId = 6,
-                            ProgramName = "BA English"
-                        },
-                        new
-                        {
-                            Id = 23,
-                            FacultyId = 6,
-                            ProgramName = "BA Sociology"
-                        },
-                        new
-                        {
-                            Id = 24,
-                            FacultyId = 7,
-                            ProgramName = "BEng Computer Engineering"
-                        },
-                        new
-                        {
-                            Id = 25,
-                            FacultyId = 7,
-                            ProgramName = "BEng Civil Engineering"
-                        },
-                        new
-                        {
-                            Id = 26,
-                            FacultyId = 7,
-                            ProgramName = "BEng Electrical Engineering"
-                        },
-                        new
-                        {
-                            Id = 27,
-                            FacultyId = 7,
-                            ProgramName = "BEng Electronics and Communication Engineering"
-                        },
-                        new
-                        {
-                            Id = 28,
-                            FacultyId = 8,
-                            ProgramName = "LLB"
-                        },
-                        new
-                        {
-                            Id = 29,
-                            FacultyId = 9,
-                            ProgramName = "BEd"
-                        },
-                        new
-                        {
-                            Id = 30,
-                            FacultyId = 9,
-                            ProgramName = "MEd"
-                        },
-                        new
-                        {
-                            Id = 31,
                             FacultyId = 10,
-                            ProgramName = "BFA"
-                        },
-                        new
-                        {
-                            Id = 32,
-                            FacultyId = 11,
-                            ProgramName = "BSc Agriculture"
-                        },
-                        new
-                        {
-                            Id = 33,
-                            FacultyId = 12,
-                            ProgramName = "BSc Nursing"
-                        },
-                        new
-                        {
-                            Id = 34,
-                            FacultyId = 12,
-                            ProgramName = "BPH"
+                            NoOfYears = 4,
+                            ProgramName = "BFA",
+                            Type = 0
                         });
                 });
 
@@ -278,7 +232,7 @@ namespace Code2.Migrations
                         new
                         {
                             Id = 1,
-                            FacultyName = "Faculty of Humanities and Social Sciences",
+                            FacultyName = "Faculty of Humanities",
                             UniversityId = 1
                         },
                         new
@@ -296,103 +250,43 @@ namespace Code2.Migrations
                         new
                         {
                             Id = 4,
-                            FacultyName = "Faculty of Education",
+                            FacultyName = "Faculty of Law",
                             UniversityId = 1
                         },
                         new
                         {
                             Id = 5,
-                            FacultyName = "Faculty of Law",
+                            FacultyName = "Faculty of Education",
                             UniversityId = 1
                         },
                         new
                         {
                             Id = 6,
-                            FacultyName = "Faculty of Fine Arts",
-                            UniversityId = 1
-                        },
-                        new
-                        {
-                            Id = 7,
                             FacultyName = "Faculty of Engineering",
-                            UniversityId = 1
-                        },
-                        new
-                        {
-                            Id = 8,
-                            FacultyName = "Faculty of Ayurveda and Alternative Medicine",
-                            UniversityId = 1
-                        },
-                        new
-                        {
-                            Id = 9,
-                            FacultyName = "Faculty of Agriculture",
-                            UniversityId = 1
-                        },
-                        new
-                        {
-                            Id = 10,
-                            FacultyName = "Faculty of Health Sciences",
-                            UniversityId = 1
-                        },
-                        new
-                        {
-                            Id = 11,
-                            FacultyName = "Faculty of Humanities and Social Sciences",
                             UniversityId = 2
                         },
                         new
                         {
-                            Id = 12,
+                            Id = 7,
                             FacultyName = "Faculty of Science",
                             UniversityId = 2
                         },
                         new
                         {
-                            Id = 13,
+                            Id = 8,
                             FacultyName = "Faculty of Management",
                             UniversityId = 2
                         },
                         new
                         {
-                            Id = 14,
-                            FacultyName = "Faculty of Education",
-                            UniversityId = 2
-                        },
-                        new
-                        {
-                            Id = 15,
+                            Id = 9,
                             FacultyName = "Faculty of Law",
                             UniversityId = 2
                         },
                         new
                         {
-                            Id = 16,
+                            Id = 10,
                             FacultyName = "Faculty of Fine Arts",
-                            UniversityId = 2
-                        },
-                        new
-                        {
-                            Id = 17,
-                            FacultyName = "Faculty of Engineering",
-                            UniversityId = 2
-                        },
-                        new
-                        {
-                            Id = 18,
-                            FacultyName = "Faculty of Ayurveda and Alternative Medicine",
-                            UniversityId = 2
-                        },
-                        new
-                        {
-                            Id = 19,
-                            FacultyName = "Faculty of Agriculture",
-                            UniversityId = 2
-                        },
-                        new
-                        {
-                            Id = 20,
-                            FacultyName = "Faculty of Health Sciences",
                             UniversityId = 2
                         });
                 });
@@ -420,19 +314,10 @@ namespace Code2.Migrations
                     b.Property<DateTime>("UploadedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("UploadedBy")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
                     b.Property<int>("Views")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Pdfs");
 
@@ -443,9 +328,7 @@ namespace Code2.Migrations
                             PdfTitle = "BSc CSIT Course Material 1",
                             Rating = 4.5f,
                             ThumbnailPath = "path/to/thumbnail1.jpg",
-                            UploadedAt = new DateTime(2025, 1, 12, 14, 14, 6, 7, DateTimeKind.Utc).AddTicks(4391),
-                            UploadedBy = "John Doe",
-                            UserId = 1,
+                            UploadedAt = new DateTime(2025, 1, 13, 11, 7, 0, 514, DateTimeKind.Utc).AddTicks(2055),
                             Views = 100
                         },
                         new
@@ -454,9 +337,7 @@ namespace Code2.Migrations
                             PdfTitle = "BSc Microbiology Course Material 1",
                             Rating = 4f,
                             ThumbnailPath = "path/to/thumbnail2.jpg",
-                            UploadedAt = new DateTime(2025, 1, 12, 14, 14, 6, 7, DateTimeKind.Utc).AddTicks(4905),
-                            UploadedBy = "Jane Doe",
-                            UserId = 2,
+                            UploadedAt = new DateTime(2025, 1, 13, 11, 7, 0, 514, DateTimeKind.Utc).AddTicks(2274),
                             Views = 200
                         },
                         new
@@ -465,9 +346,7 @@ namespace Code2.Migrations
                             PdfTitle = "BBA and MBA Case Studies",
                             Rating = 4.8f,
                             ThumbnailPath = "path/to/thumbnail3.jpg",
-                            UploadedAt = new DateTime(2025, 1, 12, 14, 14, 6, 7, DateTimeKind.Utc).AddTicks(4909),
-                            UploadedBy = "Emily Smith",
-                            UserId = 3,
+                            UploadedAt = new DateTime(2025, 1, 13, 11, 7, 0, 514, DateTimeKind.Utc).AddTicks(2275),
                             Views = 150
                         },
                         new
@@ -476,9 +355,7 @@ namespace Code2.Migrations
                             PdfTitle = "BBA and BIM Overview",
                             Rating = 4.2f,
                             ThumbnailPath = "path/to/thumbnail4.jpg",
-                            UploadedAt = new DateTime(2025, 1, 12, 14, 14, 6, 7, DateTimeKind.Utc).AddTicks(4911),
-                            UploadedBy = "David Johnson",
-                            UserId = 4,
+                            UploadedAt = new DateTime(2025, 1, 13, 11, 7, 0, 514, DateTimeKind.Utc).AddTicks(2277),
                             Views = 50
                         },
                         new
@@ -487,77 +364,250 @@ namespace Code2.Migrations
                             PdfTitle = "BSc Agriculture and BSc Nursing Guide",
                             Rating = 4.1f,
                             ThumbnailPath = "path/to/thumbnail5.jpg",
-                            UploadedAt = new DateTime(2025, 1, 12, 14, 14, 6, 7, DateTimeKind.Utc).AddTicks(4914),
-                            UploadedBy = "Sarah Lee",
-                            UserId = 3,
+                            UploadedAt = new DateTime(2025, 1, 13, 11, 7, 0, 514, DateTimeKind.Utc).AddTicks(2278),
                             Views = 250
                         });
                 });
 
-            modelBuilder.Entity("Code2.Models.PdfAcademicProgram", b =>
+            modelBuilder.Entity("Code2.Models.PdfSubject", b =>
                 {
                     b.Property<int>("PdfId")
                         .HasColumnType("int");
 
-                    b.Property<int>("AcademicProgramId")
+                    b.Property<int>("SubjectId")
                         .HasColumnType("int");
 
-                    b.HasKey("PdfId", "AcademicProgramId");
+                    b.HasKey("PdfId", "SubjectId");
 
-                    b.HasIndex("AcademicProgramId");
+                    b.HasIndex("SubjectId");
 
-                    b.ToTable("PdfAcademicPrograms");
+                    b.ToTable("PdfSubjects");
 
                     b.HasData(
                         new
                         {
                             PdfId = 1,
-                            AcademicProgramId = 17
+                            SubjectId = 1
                         },
+                        new
+                        {
+                            PdfId = 2,
+                            SubjectId = 2
+                        },
+                        new
+                        {
+                            PdfId = 3,
+                            SubjectId = 3
+                        });
+                });
+
+            modelBuilder.Entity("Code2.Models.PdfUser", b =>
+                {
+                    b.Property<int>("PdfId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("PdfId", "UserId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("PdfUsers");
+
+                    b.HasData(
                         new
                         {
                             PdfId = 1,
-                            AcademicProgramId = 18
+                            UserId = 1
                         },
                         new
                         {
                             PdfId = 2,
-                            AcademicProgramId = 18
-                        },
-                        new
-                        {
-                            PdfId = 2,
-                            AcademicProgramId = 6
+                            UserId = 1
                         },
                         new
                         {
                             PdfId = 3,
-                            AcademicProgramId = 7
-                        },
-                        new
-                        {
-                            PdfId = 3,
-                            AcademicProgramId = 8
+                            UserId = 2
                         },
                         new
                         {
                             PdfId = 4,
-                            AcademicProgramId = 7
-                        },
-                        new
-                        {
-                            PdfId = 4,
-                            AcademicProgramId = 11
+                            UserId = 3
                         },
                         new
                         {
                             PdfId = 5,
-                            AcademicProgramId = 32
+                            UserId = 4
+                        });
+                });
+
+            modelBuilder.Entity("Code2.Models.Subject", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AcademicProgramId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("SubjectCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SubjectName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AcademicProgramId");
+
+                    b.ToTable("Subject");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AcademicProgramId = 3,
+                            SubjectCode = "CSIT101",
+                            SubjectName = "Mathematics I"
                         },
                         new
                         {
-                            PdfId = 5,
-                            AcademicProgramId = 33
+                            Id = 2,
+                            AcademicProgramId = 3,
+                            SubjectCode = "CSIT102",
+                            SubjectName = "Physics I"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            AcademicProgramId = 3,
+                            SubjectCode = "CSIT103",
+                            SubjectName = "Computer Science Basics"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            AcademicProgramId = 18,
+                            SubjectCode = "MICRO101",
+                            SubjectName = "Microbiology Fundamentals"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            AcademicProgramId = 18,
+                            SubjectCode = "MICRO102",
+                            SubjectName = "Organic Chemistry"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            AcademicProgramId = 6,
+                            SubjectCode = "ENV101",
+                            SubjectName = "Environmental Science Basics"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            AcademicProgramId = 6,
+                            SubjectCode = "ENV102",
+                            SubjectName = "Biodiversity"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            AcademicProgramId = 7,
+                            SubjectCode = "BBA101",
+                            SubjectName = "Principles of Management"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            AcademicProgramId = 7,
+                            SubjectCode = "BBA102",
+                            SubjectName = "Business Statistics"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            AcademicProgramId = 8,
+                            SubjectCode = "MBA101",
+                            SubjectName = "Advanced Accounting"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            AcademicProgramId = 8,
+                            SubjectCode = "MBA102",
+                            SubjectName = "Marketing Management"
+                        },
+                        new
+                        {
+                            Id = 12,
+                            AcademicProgramId = 11,
+                            SubjectCode = "BIM101",
+                            SubjectName = "Database Management Systems"
+                        },
+                        new
+                        {
+                            Id = 13,
+                            AcademicProgramId = 11,
+                            SubjectCode = "BIM102",
+                            SubjectName = "Software Engineering"
+                        },
+                        new
+                        {
+                            Id = 14,
+                            AcademicProgramId = 3,
+                            SubjectCode = "AGRI101",
+                            SubjectName = "Agriculture Economics"
+                        },
+                        new
+                        {
+                            Id = 15,
+                            AcademicProgramId = 3,
+                            SubjectCode = "AGRI102",
+                            SubjectName = "Crop Production"
+                        },
+                        new
+                        {
+                            Id = 16,
+                            AcademicProgramId = 3,
+                            SubjectCode = "NUR101",
+                            SubjectName = "Anatomy and Physiology"
+                        },
+                        new
+                        {
+                            Id = 17,
+                            AcademicProgramId = 3,
+                            SubjectCode = "NUR102",
+                            SubjectName = "Community Health Nursing"
+                        },
+                        new
+                        {
+                            Id = 18,
+                            AcademicProgramId = 7,
+                            SubjectCode = "BBA103",
+                            SubjectName = "Human Resource Management"
+                        },
+                        new
+                        {
+                            Id = 19,
+                            AcademicProgramId = 8,
+                            SubjectCode = "MBA103",
+                            SubjectName = "Business Ethics"
+                        },
+                        new
+                        {
+                            Id = 20,
+                            AcademicProgramId = 17,
+                            SubjectCode = "CSIT104",
+                            SubjectName = "Data Structures"
                         });
                 });
 
@@ -631,7 +681,7 @@ namespace Code2.Migrations
                         new
                         {
                             UserId = 1,
-                            CreatedDate = new DateTime(2025, 1, 12, 14, 14, 6, 6, DateTimeKind.Utc).AddTicks(4240),
+                            CreatedDate = new DateTime(2025, 1, 13, 11, 7, 0, 514, DateTimeKind.Utc).AddTicks(5017),
                             CurrentSchoolOrCollege = "XYZ College",
                             DateOfBirth = new DateTime(1990, 5, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "johndoe@example.com",
@@ -646,7 +696,7 @@ namespace Code2.Migrations
                         new
                         {
                             UserId = 2,
-                            CreatedDate = new DateTime(2025, 1, 12, 14, 14, 6, 6, DateTimeKind.Utc).AddTicks(4480),
+                            CreatedDate = new DateTime(2025, 1, 13, 11, 7, 0, 514, DateTimeKind.Utc).AddTicks(5208),
                             CurrentSchoolOrCollege = "ABC University",
                             DateOfBirth = new DateTime(1992, 7, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "janesmith@example.com",
@@ -661,7 +711,7 @@ namespace Code2.Migrations
                         new
                         {
                             UserId = 3,
-                            CreatedDate = new DateTime(2025, 1, 12, 14, 14, 6, 6, DateTimeKind.Utc).AddTicks(4510),
+                            CreatedDate = new DateTime(2025, 1, 13, 11, 7, 0, 514, DateTimeKind.Utc).AddTicks(5210),
                             CurrentSchoolOrCollege = "PQR Institute",
                             DateOfBirth = new DateTime(1988, 11, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "michaelj@example.com",
@@ -675,7 +725,7 @@ namespace Code2.Migrations
                         new
                         {
                             UserId = 4,
-                            CreatedDate = new DateTime(2025, 1, 12, 14, 14, 6, 6, DateTimeKind.Utc).AddTicks(4513),
+                            CreatedDate = new DateTime(2025, 1, 13, 11, 7, 0, 514, DateTimeKind.Utc).AddTicks(5212),
                             CurrentSchoolOrCollege = "LMN College",
                             DateOfBirth = new DateTime(1995, 3, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "emilydavis@example.com",
@@ -741,34 +791,53 @@ namespace Code2.Migrations
                     b.Navigation("University");
                 });
 
-            modelBuilder.Entity("Code2.Models.Pdf", b =>
+            modelBuilder.Entity("Code2.Models.PdfSubject", b =>
                 {
-                    b.HasOne("Code2.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Code2.Models.PdfAcademicProgram", b =>
-                {
-                    b.HasOne("Code2.Models.AcademicProgram", "AcademicProgram")
-                        .WithMany("PdfAcademicPrograms")
-                        .HasForeignKey("AcademicProgramId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Code2.Models.Pdf", "Pdf")
-                        .WithMany("PdfAcademicPrograms")
+                        .WithMany("PdfSubjects")
                         .HasForeignKey("PdfId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("AcademicProgram");
+                    b.HasOne("Code2.Models.Subject", "Subject")
+                        .WithMany("PdfSubjects")
+                        .HasForeignKey("SubjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Pdf");
+
+                    b.Navigation("Subject");
+                });
+
+            modelBuilder.Entity("Code2.Models.PdfUser", b =>
+                {
+                    b.HasOne("Code2.Models.Pdf", "Pdf")
+                        .WithMany("PdfUsers")
+                        .HasForeignKey("PdfId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Code2.Models.User", "User")
+                        .WithMany("PdfUsers")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Pdf");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Code2.Models.Subject", b =>
+                {
+                    b.HasOne("Code2.Models.AcademicProgram", "AcademicProgram")
+                        .WithMany("Subjects")
+                        .HasForeignKey("AcademicProgramId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("AcademicProgram");
                 });
 
             modelBuilder.Entity("Code2.Models.User", b =>
@@ -787,7 +856,7 @@ namespace Code2.Migrations
 
             modelBuilder.Entity("Code2.Models.AcademicProgram", b =>
                 {
-                    b.Navigation("PdfAcademicPrograms");
+                    b.Navigation("Subjects");
                 });
 
             modelBuilder.Entity("Code2.Models.Faculty", b =>
@@ -797,7 +866,19 @@ namespace Code2.Migrations
 
             modelBuilder.Entity("Code2.Models.Pdf", b =>
                 {
-                    b.Navigation("PdfAcademicPrograms");
+                    b.Navigation("PdfSubjects");
+
+                    b.Navigation("PdfUsers");
+                });
+
+            modelBuilder.Entity("Code2.Models.Subject", b =>
+                {
+                    b.Navigation("PdfSubjects");
+                });
+
+            modelBuilder.Entity("Code2.Models.User", b =>
+                {
+                    b.Navigation("PdfUsers");
                 });
 
             modelBuilder.Entity("University", b =>

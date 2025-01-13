@@ -15,18 +15,12 @@ namespace Code2.Models
         [StringLength(200)]
         public string PdfTitle { get; set; } // Title of the PDF
 
-        // Foreign Key for User
-        public int UserId { get; set; }
-        [ForeignKey("UserId")]
-        public User User { get; set; } // Navigation property to the uploader
-
         // Additional Attributes
         public string ThumbnailPath { get; set; } // Path to the PDF's thumbnail image
         public float Rating { get; set; } // Rating of the PDF
         public int Views { get; set; } // Number of views
         public DateTime UploadedAt { get; set; } // Upload timestamp 
-        public string UploadedBy { get; set; } // FullName of the uploader 
-
-        public ICollection<PdfAcademicProgram> PdfAcademicPrograms { get; set; }  // Navigation property
+        public ICollection<PdfSubject> PdfSubjects { get; set; }
+        public ICollection<PdfUser> PdfUsers { get; set; }
     }
 }
