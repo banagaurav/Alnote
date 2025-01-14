@@ -47,6 +47,8 @@ namespace Code2.Services
                             {
                                 Id = ps.Subject.AcademicProgram.Id,
                                 ProgramName = ps.Subject.AcademicProgram.ProgramName,
+                                NoOfYears = ps.Subject.AcademicProgram.NoOfYears,
+                                Type = ps.Subject.AcademicProgram.Type,
                                 Faculty = new FacultyDto
                                 {
                                     Id = ps.Subject.AcademicProgram.Faculty.Id,

@@ -1,4 +1,3 @@
-using System;
 using Code2.DTOS;
 using Code2.Repositories;
 
@@ -44,7 +43,7 @@ public class UniversityService : IUniversityService
     {
         return await _universityRepository.GetUniversityByIdAsync(id);
     }
-    
+
     public async Task<bool> DeleteUniversityAsync(int universityId)
     {
         return await _universityRepository.DeleteUniversityAsync(universityId);

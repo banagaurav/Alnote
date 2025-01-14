@@ -24,6 +24,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 
+builder.Services.AddScoped<ISubjectService, SubjectService>();
+
 builder.Services.AddScoped<IFacultyService, FacultyService>();
 builder.Services.AddScoped<IFacultyRepository, FacultyRepository>();
 

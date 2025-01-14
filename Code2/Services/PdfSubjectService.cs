@@ -1,8 +1,5 @@
 using Code2.Models;
 using Code2.Repositories;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-
 namespace Code2.Services
 {
     public class PdfSubjectService : IPdfSubjectService

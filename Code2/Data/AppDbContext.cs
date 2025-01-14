@@ -10,12 +10,13 @@ public class AppDbContext : DbContext
     }
 
 
-    public DbSet<User> Users { get; set; }
     // Other DbSets (e.g., Pdfs, Faculties)
     public DbSet<University> Universities { get; set; }
     public DbSet<Faculty> Faculties { get; set; }
     public DbSet<AcademicProgram> Academics { get; set; }
+    public DbSet<Subject> Subjects { get; set; }
     public DbSet<Pdf> Pdfs { get; set; }
+    public DbSet<User> Users { get; set; }
     public DbSet<PdfSubject> PdfSubjects { get; set; }
     public DbSet<PdfUser> PdfUsers { get; set; }
 

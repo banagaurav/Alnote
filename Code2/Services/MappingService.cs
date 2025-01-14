@@ -28,6 +28,8 @@ public class MappingService
         {
             Id = academicProgram.Id,
             ProgramName = academicProgram.ProgramName,
+            NoOfYears = academicProgram.NoOfYears,
+            Type = academicProgram.Type,
             Faculty = new FacultyDto
             {
                 Id = academicProgram.Faculty.Id,
@@ -48,10 +50,13 @@ public class MappingService
         {
             Id = subject.Id,
             SubjectName = subject.SubjectName,
+            SubjectCode = subject.SubjectCode,
             AcademicProgram = new AcademicProgramDto
             {
                 Id = subject.AcademicProgram.Id,
                 ProgramName = subject.AcademicProgram.ProgramName,
+                NoOfYears = subject.AcademicProgram.NoOfYears,
+                Type = subject.AcademicProgram.Type,
                 Faculty = new FacultyDto
                 {
                     Id = subject.AcademicProgram.Faculty.Id,
@@ -104,6 +109,8 @@ public class MappingService
                     {
                         Id = ps.Subject.AcademicProgram.Id,
                         ProgramName = ps.Subject.AcademicProgram.ProgramName,
+                        NoOfYears = ps.Subject.AcademicProgram.NoOfYears,
+                        Type = ps.Subject.AcademicProgram.Type,
 
                         // Mapping AcademicProgram -> Faculty -> University
                         Faculty = new FacultyDto
