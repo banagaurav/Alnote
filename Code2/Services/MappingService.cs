@@ -7,69 +7,67 @@ namespace Code2.Services;
 
 public class MappingService
 {
+    public UniversityDto MapToUniversityDto(University university)
+    {
+        if (university == null) return null;
+
+        return new UniversityDto
+        {
+            Id = university.Id,
+            UniversityName = university.UniversityName
+        };
+    }
     public FacultyDto MapToFacultyDto(Faculty faculty)
     {
+        if (faculty == null) return null;
+
         return new FacultyDto
         {
             Id = faculty.Id,
             FacultyName = faculty.FacultyName,
-            University = faculty.University != null ? new UniversityDto
-            {
-                Id = faculty.University.Id,
-                UniversityName = faculty.University.UniversityName
-            } : null // Make sure university is included
+            University = MapToUniversityDto(faculty.University)
         };
     }
 
 
     public AcademicProgramDto MapToAcademicProgramDto(AcademicProgram academicProgram)
     {
+        if (academicProgram == null) return null;
+
         return new AcademicProgramDto
         {
             Id = academicProgram.Id,
             ProgramName = academicProgram.ProgramName,
             NoOfYears = academicProgram.NoOfYears,
             Type = academicProgram.Type,
-            Faculty = new FacultyDto
-            {
-                Id = academicProgram.Faculty.Id,
-                FacultyName = academicProgram.Faculty.FacultyName,
-                University = new UniversityDto
-                {
-                    Id = academicProgram.Faculty.University.Id,
-                    UniversityName = academicProgram.Faculty.University.UniversityName
-                }
-            },
+            Faculty = MapToFacultyDto(academicProgram.Faculty)
         };
     }
 
-
     public SubjectDto MapToSubjectDto(Subject subject)
     {
+        if (subject == null) return null;
+
         return new SubjectDto
         {
             Id = subject.Id,
             SubjectName = subject.SubjectName,
             SubjectCode = subject.SubjectCode,
-            AcademicProgram = new AcademicProgramDto
-            {
-                Id = subject.AcademicProgram.Id,
-                ProgramName = subject.AcademicProgram.ProgramName,
-                NoOfYears = subject.AcademicProgram.NoOfYears,
-                Type = subject.AcademicProgram.Type,
-                Faculty = new FacultyDto
-                {
-                    Id = subject.AcademicProgram.Faculty.Id,
-                    FacultyName = subject.AcademicProgram.Faculty.FacultyName,
-                    University = new UniversityDto
-                    {
-                        Id = subject.AcademicProgram.Faculty.University.Id,
-                        UniversityName = subject.AcademicProgram.Faculty.University.UniversityName
-                    }
-                }
-            }
+            AcademicProgram = MapToAcademicProgramDto(subject.AcademicProgram)
         };
     }
+
+
+    public SubjectOnlyDto MapToSubjectOnlyDto(Subject subject)
+    {
+        return new SubjectOnlyDto
+        {
+            Id = subject.Id,
+            SubjectName = subject.SubjectName,
+            SubjectCode = subject.SubjectCode
+        };
+    }
+
     public UserDTO MapToUserDto(User user)
     {
         if (user == null)
@@ -97,48 +95,13 @@ public class MappingService
             Views = pdf.Views,
             UploadedAt = pdf.UploadedAt,
 
-            // Mapping the many-to-many relation between Pdf and Subject
-            Subjects = pdf.PdfSubjects
-                .Select(ps => new SubjectDto
-                {
-                    Id = ps.Subject.Id,
-                    SubjectName = ps.Subject.SubjectName,
-
-                    // Mapping the Subject -> AcademicProgram -> Faculty -> University
-                    AcademicProgram = new AcademicProgramDto
-                    {
-                        Id = ps.Subject.AcademicProgram.Id,
-                        ProgramName = ps.Subject.AcademicProgram.ProgramName,
-                        NoOfYears = ps.Subject.AcademicProgram.NoOfYears,
-                        Type = ps.Subject.AcademicProgram.Type,
-
-                        // Mapping AcademicProgram -> Faculty -> University
-                        Faculty = new FacultyDto
-                        {
-                            Id = ps.Subject.AcademicProgram.Faculty.Id,
-                            FacultyName = ps.Subject.AcademicProgram.Faculty.FacultyName,
-
-                            // Mapping Faculty -> University
-                            University = new UniversityDto
-                            {
-                                Id = ps.Subject.AcademicProgram.Faculty.University.Id,
-                                UniversityName = ps.Subject.AcademicProgram.Faculty.University.UniversityName
-                            }
-                        }
-                    }
-                }).ToList(), // Convert the collection to a list
-
-            // Mapping many-to-many relation between Pdf and User
-            Users = pdf.PdfUsers
-                .Select(pu => new UserDTO
-                {
-                    UserId = pu.User.UserId,
-                    Username = pu.User.Username,
-                    Email = pu.User.Email
-                }).ToList()
+            Subjects = pdf.PdfSubjects?.Select(ps => MapToSubjectDto(ps.Subject)).ToList() ?? new List<SubjectDto>(),
+            Users = pdf.PdfUsers?.Select(pu => MapToUserDto(pu.User)).ToList() ?? new List<UserDTO>()
         };
     }
 
-
-
 }
+
+
+
+

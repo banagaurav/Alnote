@@ -23,35 +23,28 @@ namespace Code2.Controllers
         public async Task<ActionResult<IEnumerable<SubjectDto>>> GetAllSubjects()
         {
             var subjects = await _subjectService.GetAllSubjectsAsync();
-            var subjectDtos = subjects.Select(_mappingService.MapToSubjectDto).ToList();
-            return Ok(subjectDtos);
+            return Ok(subjects);
         }
 
-        // private SubjectDto MapToSubjectDto(Subject subject)
-        // {
-        //     return new SubjectDto
-        //     {
-        //         Id = subject.Id,
-        //         SubjectName = subject.SubjectName,
-        //         SubjectCode = subject.SubjectCode,
-        //         AcademicProgram = new AcademicProgramDto
-        //         {
-        //             Id = subject.AcademicProgram.Id,
-        //             ProgramName = subject.AcademicProgram.ProgramName,
-        //             NoOfYears = subject.AcademicProgram.NoOfYears,
-        //             Type = subject.AcademicProgram.Type,
-        //             Faculty = new FacultyDto
-        //             {
-        //                 Id = subject.AcademicProgram.Faculty.Id,
-        //                 FacultyName = subject.AcademicProgram.Faculty.FacultyName,
-        //                 University = new UniversityDto
-        //                 {
-        //                     Id = subject.AcademicProgram.Faculty.University.Id,
-        //                     UniversityName = subject.AcademicProgram.Faculty.University.UniversityName
-        //                 }
-        //             }
-        //         }
-        //     };
-        // }
+        [HttpGet("Subject Only")]
+        public async Task<ActionResult<SubjectOnlyDto>> GetSubjectsOnly()
+        {
+            var subjects = await _subjectService.GetSubjectsOnly();
+            return Ok(subjects);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<SubjectDto>> GetSubjectById(int id)
+        {
+            var subjectDto = await _subjectService.GetSubjectByIdAsync(id);
+
+            if (subjectDto == null)
+            {
+                return NotFound(); // Return 404 if subject not found
+            }
+
+            return Ok(subjectDto); // Return 200 with subject DTO
+        }
+
     }
 }
