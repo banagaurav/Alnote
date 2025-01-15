@@ -2,6 +2,7 @@ using Code2.DTOs;
 using Code2.DTOS;
 using Code2.Models;
 using Code2.Services.Interfaces;
+using Code2.Utilities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Code2.Services
@@ -17,32 +18,20 @@ namespace Code2.Services
             _mappingService = mappingService;
         }
 
+
         public async Task<IEnumerable<PdfDto>> GetAllPdfsAsync()
         {
-            var pdfs = await _context.Pdfs
-                .Include(p => p.PdfUsers) // Include related User data
-                    .ThenInclude(pu => pu.User) // Include User
-                .Include(p => p.PdfSubjects) // Include relation to subjects
-                    .ThenInclude(ps => ps.Subject) // Include Subject
-                    .ThenInclude(s => s.AcademicProgram) // Include AcademicProgram
-                    .ThenInclude(ap => ap.Faculty) // Include Faculty
-                    .ThenInclude(f => f.University) // Include University
+            return await _context.Pdfs
+                .IncludePdfRelations()
+                .Select(p => _mappingService.MapToPdfDto(p)) // Use mapping service here
                 .ToListAsync();
-
-            return pdfs.Select(pdf => _mappingService.MapToPdfDto(pdf));
         }
 
 
         public async Task<PdfDto> GetPdfByIdAsync(int id)
         {
             var pdf = await _context.Pdfs
-                .Include(p => p.PdfUsers)
-                    .ThenInclude(pu => pu.User)
-                .Include(p => p.PdfSubjects)
-                    .ThenInclude(ps => ps.Subject)
-                    .ThenInclude(s => s.AcademicProgram)
-                    .ThenInclude(ap => ap.Faculty)
-                    .ThenInclude(f => f.University)
+                .IncludePdfRelations()
                 .FirstOrDefaultAsync(p => p.Id == id);
 
             if (pdf == null)
@@ -59,30 +48,18 @@ namespace Code2.Services
         {
             var pdfs = await _context.Pdfs
                 .Where(p => p.PdfUsers.Any(pu => pu.UserId == userId)) // Filter by UserId in PdfUsers
-                .Include(p => p.PdfSubjects)
-                    .ThenInclude(ps => ps.Subject)
-                    .ThenInclude(s => s.AcademicProgram)
-                    .ThenInclude(ap => ap.Faculty)
-                    .ThenInclude(f => f.University)
+                .IncludePdfRelations()
                 .ToListAsync();
 
             return pdfs.Select(p => _mappingService.MapToPdfDto(p)).ToList();
         }
 
-
         public async Task<List<PdfDto>> GetPdfsSortedByRatingAsync()
         {
             return await _context.Pdfs
                 .OrderByDescending(p => p.Rating)
-                .Select(p => new PdfDto
-                {
-                    Id = p.Id,
-                    PdfTitle = p.PdfTitle,
-                    ThumbnailPath = p.ThumbnailPath,
-                    Rating = p.Rating,
-                    Views = p.Views,
-                    UploadedAt = p.UploadedAt
-                })
+                .IncludePdfRelations()
+                .Select(p => _mappingService.MapToPdfDto(p)) // Use mapping service here
                 .ToListAsync();
         }
 
@@ -90,15 +67,8 @@ namespace Code2.Services
         {
             return await _context.Pdfs
                 .OrderByDescending(p => p.Views)
-                .Select(p => new PdfDto
-                {
-                    Id = p.Id,
-                    PdfTitle = p.PdfTitle,
-                    ThumbnailPath = p.ThumbnailPath,
-                    Rating = p.Rating,
-                    Views = p.Views,
-                    UploadedAt = p.UploadedAt
-                })
+                .IncludePdfRelations()
+                .Select(p => _mappingService.MapToPdfDto(p)) // Use mapping service here
                 .ToListAsync();
         }
 
@@ -106,15 +76,8 @@ namespace Code2.Services
         {
             return await _context.Pdfs
                 .OrderByDescending(p => p.UploadedAt)
-                .Select(p => new PdfDto
-                {
-                    Id = p.Id,
-                    PdfTitle = p.PdfTitle,
-                    ThumbnailPath = p.ThumbnailPath,
-                    Rating = p.Rating,
-                    Views = p.Views,
-                    UploadedAt = p.UploadedAt
-                })
+                .IncludePdfRelations()
+                .Select(p => _mappingService.MapToPdfDto(p)) // Use mapping service here
                 .ToListAsync();
         }
     }
