@@ -8,7 +8,6 @@ namespace Code2.Repositories
     {
         Task<List<User>> GetAllUsersAsync();
         Task<User> GetUserByIdAsync(int userId);
-        Task AddUserAsync(User user);
-        Task SaveAsync();
+        Task<User> CreateUserAsync(User user);
     }
 }

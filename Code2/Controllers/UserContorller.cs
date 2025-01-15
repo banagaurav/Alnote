@@ -80,22 +80,24 @@ namespace Code2.Controllers
 
         // POST: api/users
         [HttpPost]
-        public async Task<IActionResult> AddUser([FromBody] UserAddDto userAddDto)
+        public async Task<IActionResult> CreateUser([FromBody] UserCreateDto userCreateDto)
         {
-            if (userAddDto == null)
+            try
             {
-                return BadRequest("User data is required.");
+                if (userCreateDto == null)
+                {
+                    return BadRequest("User data is required.");
+                }
+
+                var user = await _userService.CreateUserAsync(userCreateDto);
+                return CreatedAtAction(nameof(CreateUser), new { id = user.UserId }, user);
             }
-
-            // Map the DTO to the User model
-            var user = _mappingService.MapToUser(userAddDto, _passwordHasher);  // This gives a User object
-
-            // Now pass the User object to the service method
-            await _userService.AddUserAsync(user);
-
-            return CreatedAtAction(nameof(GetUserById), new { userId = user.UserId }, user);
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);  // Return a custom error message for invalid DateOfBirth
+            }
         }
-
     }
 }
+
 

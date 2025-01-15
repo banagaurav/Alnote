@@ -90,35 +90,6 @@ public class MappingService
         };
     }
 
-    public User MapToUser(UserAddDto userAddDto, IPasswordHasher<User> passwordHasher)
-    {
-        if (userAddDto == null)
-        {
-            return null;
-        }
-
-        var user = new User
-        {
-            FirstName = userAddDto.FirstName,
-            LastName = userAddDto.LastName,
-            DateOfBirth = userAddDto.DateOfBirth,
-            PhoneNumber = userAddDto.PhoneNumber,
-            Email = userAddDto.Email,
-            CurrentSchoolOrCollege = userAddDto.CurrentSchoolOrCollege,
-            UniversityId = userAddDto.UniversityId,
-            Username = userAddDto.Username,
-            Role = "Client", // Ensure the role is set to "Client"
-            CreatedDate = DateTime.UtcNow
-        };
-
-        // Hash the password using the password hasher
-        var hashedPassword = passwordHasher.HashPassword(user, userAddDto.Password);
-        user.Password = hashedPassword;
-
-        return user;
-    }
-
-
     public PdfDto MapToPdfDto(Pdf pdf)
     {
         return new PdfDto

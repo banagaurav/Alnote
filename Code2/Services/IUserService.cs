@@ -10,6 +10,6 @@ namespace Code2.Services
         Task<List<UserDTO>> GetAllUsersAsync();
         Task<UserDTO> GetUserByIdAsync(int userId);
 
-        Task AddUserAsync(User user);
+        Task<User> CreateUserAsync(UserCreateDto userCreateDto);
     }
 }

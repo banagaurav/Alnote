@@ -29,17 +29,31 @@ public class UserService : IUserService
     }
 
 
-    public async Task AddUserAsync(User user)
+    public async Task<User> CreateUserAsync(UserCreateDto userCreateDto)
     {
-        if (user == null)
+        // Try to parse the DateOfBirth string to DateTime
+        DateTime dateOfBirth;
+        if (!DateTime.TryParse(userCreateDto.DateOfBirth, out dateOfBirth))
         {
-            throw new ArgumentNullException(nameof(user));
+            // Handle invalid date format if necessary (return a BadRequest or error message)
+            throw new ArgumentException("Invalid date format for DateOfBirth.");
         }
 
-        // Add the user to the repository
-        await _userRepository.AddUserAsync(user);
-        await _userRepository.SaveAsync();
-    }
+        var user = new User
+        {
+            FirstName = userCreateDto.FirstName,
+            LastName = userCreateDto.LastName,
+            DateOfBirth = dateOfBirth,  // Successfully converted to DateTime
+            PhoneNumber = userCreateDto.PhoneNumber,
+            Email = userCreateDto.Email,
+            CurrentSchoolOrCollege = userCreateDto.CurrentSchoolOrCollege,
+            UniversityId = userCreateDto.UniversityId,
+            Username = userCreateDto.Username,
+            Password = userCreateDto.Password, // No hashing for now
+            Role = "Client"
+        };
 
+        return await _userRepository.CreateUserAsync(user);
+    }
 
 }

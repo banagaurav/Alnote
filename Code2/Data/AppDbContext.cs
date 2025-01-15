@@ -92,8 +92,16 @@ public class AppDbContext : DbContext
             .OnDelete(DeleteBehavior.Cascade);
 
         modelBuilder.Entity<User>()
+        .Property(u => u.Password)
+        .HasMaxLength(256);
+
+        modelBuilder.Entity<User>()
             .Property(u => u.Email)
             .IsRequired();
+
+        modelBuilder.Entity<User>()
+            .Property(u => u.UserId)
+            .ValueGeneratedOnAdd(); // Ensures the UserId is auto-incremented
 
         modelBuilder.Entity<Subject>()
             .HasOne(s => s.AcademicProgram)        // Subject has one AcademicProgram

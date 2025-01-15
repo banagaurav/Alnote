@@ -25,15 +25,11 @@ namespace Code2.Repositories
                 .FirstOrDefaultAsync(u => u.UserId == userId);
         }
 
-        public async Task AddUserAsync(User user)
+        public async Task<User> CreateUserAsync(User user)
         {
-            await _context.Users.AddAsync(user);
+            _context.Users.Add(user);
             await _context.SaveChangesAsync();
-        }
-
-        public async Task SaveAsync()
-        {
-            await _context.SaveChangesAsync();
+            return user;
         }
     }
 }
