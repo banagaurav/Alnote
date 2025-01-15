@@ -34,7 +34,7 @@ namespace Code2.Models
         public University University { get; set; }
 
         [Required]
-        [StringLength(50, MinimumLength = 6)]
+        [StringLength(256, MinimumLength = 6)]  // Make sure the password can store the hashed password (hashed value can be longer)
         public string Password { get; set; }
 
         [Required]

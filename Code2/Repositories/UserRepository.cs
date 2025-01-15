@@ -1,7 +1,7 @@
-using Code2.Models;
-using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Code2.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Code2.Repositories
 {
@@ -14,20 +14,25 @@ namespace Code2.Repositories
             _context = context;
         }
 
-        public async Task<User> GetUserByIdAsync(int id)
+        public async Task<List<User>> GetAllUsersAsync()
         {
-            return await _context.Users
-                .FirstOrDefaultAsync(u => u.UserId == id);  // Retrieve user by ID
+            return await _context.Users.ToListAsync();
         }
 
-        public async Task<IEnumerable<User>> GetAllUsersAsync()
+        public async Task<User> GetUserByIdAsync(int userId)
         {
-            return await _context.Users.ToListAsync();  // Optionally, get all users
+            return await _context.Users
+                .FirstOrDefaultAsync(u => u.UserId == userId);
         }
 
         public async Task AddUserAsync(User user)
         {
             await _context.Users.AddAsync(user);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task SaveAsync()
+        {
             await _context.SaveChangesAsync();
         }
     }

@@ -1,7 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Code2.DTOS;
 using Code2.Services;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
+using Code2.Models;
 
 namespace Code2.Controllers
 {
@@ -10,10 +11,15 @@ namespace Code2.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
+        private readonly MappingService _mappingService;
+        private readonly IPasswordHasher<User> _passwordHasher; // Injecting the password hasher
 
-        public UserController(IUserService userService)
+        // Constructor
+        public UserController(IUserService userService, MappingService mappingService, IPasswordHasher<User> passwordHasher)
         {
             _userService = userService;
+            _mappingService = mappingService;
+            _passwordHasher = passwordHasher; // Assigning injected password hasher
         }
 
         // GET api/user
@@ -71,5 +77,25 @@ namespace Code2.Controllers
 
             return Ok(userDTO);  // Return the user data as a DTO
         }
+
+        // POST: api/users
+        [HttpPost]
+        public async Task<IActionResult> AddUser([FromBody] UserAddDto userAddDto)
+        {
+            if (userAddDto == null)
+            {
+                return BadRequest("User data is required.");
+            }
+
+            // Map the DTO to the User model
+            var user = _mappingService.MapToUser(userAddDto, _passwordHasher);  // This gives a User object
+
+            // Now pass the User object to the service method
+            await _userService.AddUserAsync(user);
+
+            return CreatedAtAction(nameof(GetUserById), new { userId = user.UserId }, user);
+        }
+
     }
 }
+

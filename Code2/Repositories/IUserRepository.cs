@@ -1,11 +1,14 @@
-using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Code2.Models;
 
-namespace Code2.Repositories;
-
-public interface IUserRepository
+namespace Code2.Repositories
 {
-    Task<User> GetUserByIdAsync(int id);
-    Task<IEnumerable<User>> GetAllUsersAsync();  // Optional for getting all users
-    Task AddUserAsync(User user);  // Optional for adding users
+    public interface IUserRepository
+    {
+        Task<List<User>> GetAllUsersAsync();
+        Task<User> GetUserByIdAsync(int userId);
+        Task AddUserAsync(User user);
+        Task SaveAsync();
+    }
 }

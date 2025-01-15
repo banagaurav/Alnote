@@ -40,6 +40,6 @@ namespace Code2.DTOS
 
         [Required(ErrorMessage = "Role is required.")]
         [StringLength(20, ErrorMessage = "Role cannot be longer than 20 characters.")]
-        public string Role { get; set; }
+        public string Role { get; set; } = "Client";
     }
 }
