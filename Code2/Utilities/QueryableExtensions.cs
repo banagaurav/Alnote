@@ -16,5 +16,12 @@ namespace Code2.Utilities
                     .ThenInclude(ap => ap.Faculty) // Include Faculty
                     .ThenInclude(f => f.University); // Include University
         }
+
+        public static IQueryable<Subject> IncludeSubjectRelations(this IQueryable<Subject> query)
+        {
+            return query.Include(s => s.AcademicProgram) // Include AcademicProgram
+                    .ThenInclude(ap => ap.Faculty) // Include Faculty
+                    .ThenInclude(f => f.University); // Include University
+        }
     }
 }
